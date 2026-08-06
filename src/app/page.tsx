@@ -18,6 +18,7 @@ import {
   Ban,
 } from "lucide-react";
 import PhotoPlaceholder from "@/components/PhotoPlaceholder";
+import DestinationImage from "@/components/DestinationImage";
 import {
   destinations,
   packages,
@@ -136,8 +137,9 @@ export default function HomePage() {
                   href={`/destinations/${d.slug}`}
                   className="group overflow-hidden rounded-xl border border-forest-900/10 bg-white shadow-sm transition hover:shadow-md"
                 >
-                  <PhotoPlaceholder
-                    label={d.name}
+                  <DestinationImage
+                    src={d.heroImageUrl}
+                    alt={d.name}
                     gradientIndex={i}
                     className="h-32 w-full"
                   />

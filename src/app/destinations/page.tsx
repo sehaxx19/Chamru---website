@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Clock, MapPin } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
-import PhotoPlaceholder from "@/components/PhotoPlaceholder";
+import DestinationImage from "@/components/DestinationImage";
 import { destinations } from "@/data/sample-data";
 
 export const metadata = {
@@ -25,7 +25,7 @@ export default function DestinationsPage() {
               href={`/destinations/${d.slug}`}
               className="group overflow-hidden rounded-xl border border-forest-900/10 bg-white shadow-sm transition hover:shadow-md"
             >
-              <PhotoPlaceholder label={d.name} gradientIndex={i} className="h-44 w-full" />
+              <DestinationImage src={d.heroImageUrl} alt={d.name} gradientIndex={i} className="h-44 w-full" />
               <div className="p-4">
                 <div className="flex items-center justify-between">
                   <h3 className="font-display text-base font-semibold text-forest-900">

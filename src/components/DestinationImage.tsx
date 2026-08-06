@@ -1,0 +1,35 @@
+import Image from "next/image";
+import PhotoPlaceholder from "@/components/PhotoPlaceholder";
+
+export default function DestinationImage({
+  src,
+  alt,
+  gradientIndex = 0,
+  className = "",
+  priority = false,
+  sizes = "(min-width: 1024px) 25vw, 50vw",
+}: {
+  src: string;
+  alt: string;
+  gradientIndex?: number;
+  className?: string;
+  priority?: boolean;
+  sizes?: string;
+}) {
+  if (!src.startsWith("http")) {
+    return <PhotoPlaceholder label={alt} gradientIndex={gradientIndex} className={className} />;
+  }
+
+  return (
+    <div className={`relative overflow-hidden ${className}`}>
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes={sizes}
+        priority={priority}
+        className="object-cover"
+      />
+    </div>
+  );
+}

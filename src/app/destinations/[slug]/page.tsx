@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Clock, MapPin, Wallet, CalendarDays, ArrowLeft } from "lucide-react";
 import PhotoPlaceholder from "@/components/PhotoPlaceholder";
+import DestinationImage from "@/components/DestinationImage";
 import { destinations } from "@/data/sample-data";
 
 export function generateStaticParams() {
@@ -22,9 +23,12 @@ export default async function DestinationDetailPage({
   return (
     <>
       <section className="relative overflow-hidden bg-forest-950">
-        <PhotoPlaceholder
-          label={destination.name}
-          className="absolute inset-0 h-full w-full opacity-70"
+        <DestinationImage
+          src={destination.heroImageUrl}
+          alt={destination.name}
+          className="absolute inset-0 h-full w-full"
+          priority
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/50 to-forest-950/10" />
         <div className="relative mx-auto max-w-5xl px-4 pb-12 pt-10 sm:px-6 lg:px-8">
@@ -112,7 +116,7 @@ export default async function DestinationDetailPage({
                   href={`/destinations/${d.slug}`}
                   className="group overflow-hidden rounded-xl border border-forest-900/10 bg-white shadow-sm transition hover:shadow-md"
                 >
-                  <PhotoPlaceholder label={d.name} gradientIndex={i + 1} className="h-28 w-full" />
+                  <DestinationImage src={d.heroImageUrl} alt={d.name} gradientIndex={i + 1} className="h-28 w-full" />
                   <div className="p-3">
                     <h3 className="font-display text-sm font-semibold text-forest-900">
                       {d.name}

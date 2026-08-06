@@ -11,7 +11,8 @@ export const destinations = [
     category: "Culture",
     shortDesc:
       "UNESCO World Heritage Site. Climb the Lion Rock and enjoy breathtaking views.",
-    heroImageUrl: "/images/destinations/sigiriya.jpg",
+    heroImageUrl:
+      "https://images.unsplash.com/photo-1751247026229-518bfec9b5e6?auto=format&fit=crop&w=1600&q=80",
     bestTime: "Apr – Sep",
     timeNeeded: "2–3 hrs",
     entranceFee: "LKR 4,500",
@@ -23,7 +24,8 @@ export const destinations = [
     category: "Hiking",
     shortDesc:
       "Scenic train rides, lush tea plantations and breathtaking mountain views.",
-    heroImageUrl: "/images/destinations/ella.jpg",
+    heroImageUrl:
+      "https://images.unsplash.com/photo-1559038298-ef4eecdfdbb3?auto=format&fit=crop&w=1600&q=80",
     bestTime: "Jan – Mar",
     timeNeeded: "1–2 hrs",
     entranceFee: "Free",
@@ -34,7 +36,8 @@ export const destinations = [
     region: "Hambantota Province",
     category: "Wildlife",
     shortDesc: "Home to Sri Lanka's famous leopards and diverse wildlife.",
-    heroImageUrl: "/images/destinations/yala.jpg",
+    heroImageUrl:
+      "https://images.unsplash.com/photo-1566708627877-859df13ae63e?auto=format&fit=crop&w=1600&q=80",
     bestTime: "Feb – Jun",
     timeNeeded: "4–6 hrs",
     entranceFee: "LKR 15,000",
@@ -46,7 +49,8 @@ export const destinations = [
     category: "Culture",
     shortDesc:
       "Historic Dutch fort with charming streets and ocean views.",
-    heroImageUrl: "/images/destinations/galle-fort.jpg",
+    heroImageUrl:
+      "https://images.unsplash.com/photo-1568843240915-b512cc9b4415?auto=format&fit=crop&w=1600&q=80",
     bestTime: "Dec – Apr",
     timeNeeded: "2–3 hrs",
     entranceFee: "Free",
@@ -58,7 +62,8 @@ export const destinations = [
     category: "Hiking",
     shortDesc:
       "Iconic colonial-era railway bridge set among tea plantations — best at sunrise.",
-    heroImageUrl: "/images/destinations/nine-arches.jpg",
+    heroImageUrl:
+      "https://images.unsplash.com/photo-1578848391986-547ff230b6d7?auto=format&fit=crop&w=1600&q=80",
     bestTime: "Jan – Mar",
     timeNeeded: "1 hr",
     entranceFee: "Free",
@@ -70,7 +75,8 @@ export const destinations = [
     category: "Culture",
     shortDesc:
       "Sacred Buddhist temple in the hill capital, home to a relic of the Buddha's tooth.",
-    heroImageUrl: "/images/destinations/temple-of-tooth.jpg",
+    heroImageUrl:
+      "https://images.unsplash.com/photo-1665849050430-5e8c16bacf7e?auto=format&fit=crop&w=1600&q=80",
     bestTime: "Year-round",
     timeNeeded: "1–2 hrs",
     entranceFee: "LKR 1,500",
@@ -82,7 +88,8 @@ export const destinations = [
     category: "Beaches",
     shortDesc:
       "Golden-sand beach famous for whale watching and laid-back beach cafes.",
-    heroImageUrl: "/images/destinations/mirissa.jpg",
+    heroImageUrl:
+      "https://images.unsplash.com/photo-1580910527739-556eb89f9d65?auto=format&fit=crop&w=1600&q=80",
     bestTime: "Nov – Apr",
     timeNeeded: "Half day",
     entranceFee: "Free",
