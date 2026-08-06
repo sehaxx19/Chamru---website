@@ -1,13 +1,5 @@
 import { NextResponse } from "next/server";
-
-// Destinations shown on the Weather page, with coordinates.
-const LOCATIONS = [
-  { name: "Colombo", lat: 6.9271, lon: 79.8612 },
-  { name: "Kandy", lat: 7.2906, lon: 80.6337 },
-  { name: "Ella", lat: 6.8667, lon: 81.0466 },
-  { name: "Yala", lat: 6.3728, lon: 81.5183 },
-  { name: "Galle", lat: 6.0535, lon: 80.221 },
-];
+import { weatherLocations as LOCATIONS } from "@/data/sample-data";
 
 export async function GET() {
   const apiKey = process.env.OPENWEATHER_API_KEY;

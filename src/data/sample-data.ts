@@ -51,6 +51,63 @@ export const destinations = [
     timeNeeded: "2–3 hrs",
     entranceFee: "Free",
   },
+  {
+    slug: "nine-arches-bridge",
+    name: "Nine Arches Bridge",
+    region: "Ella, Uva Province",
+    category: "Hiking",
+    shortDesc:
+      "Iconic colonial-era railway bridge set among tea plantations — best at sunrise.",
+    heroImageUrl: "/images/destinations/nine-arches.jpg",
+    bestTime: "Jan – Mar",
+    timeNeeded: "1 hr",
+    entranceFee: "Free",
+  },
+  {
+    slug: "temple-of-the-tooth",
+    name: "Temple of the Tooth",
+    region: "Kandy, Central Province",
+    category: "Culture",
+    shortDesc:
+      "Sacred Buddhist temple in the hill capital, home to a relic of the Buddha's tooth.",
+    heroImageUrl: "/images/destinations/temple-of-tooth.jpg",
+    bestTime: "Year-round",
+    timeNeeded: "1–2 hrs",
+    entranceFee: "LKR 1,500",
+  },
+  {
+    slug: "mirissa-beach",
+    name: "Mirissa",
+    region: "Matara, Southern Province",
+    category: "Beaches",
+    shortDesc:
+      "Golden-sand beach famous for whale watching and laid-back beach cafes.",
+    heroImageUrl: "/images/destinations/mirissa.jpg",
+    bestTime: "Nov – Apr",
+    timeNeeded: "Half day",
+    entranceFee: "Free",
+  },
+] as const;
+
+export const gallery = [
+  { label: "Sigiriya Rock Fortress at golden hour", category: "Culture", gradientIndex: 0 },
+  { label: "Nine Arches Bridge, Ella", category: "Hiking", gradientIndex: 1 },
+  { label: "Leopard on safari, Yala National Park", category: "Wildlife", gradientIndex: 2 },
+  { label: "Galle Fort ramparts at sunset", category: "Culture", gradientIndex: 3 },
+  { label: "Tea plantations, Nuwara Eliya", category: "Hiking", gradientIndex: 0 },
+  { label: "Mirissa beach and fishing boats", category: "Beaches", gradientIndex: 1 },
+  { label: "Guests with Chamru and the Honda Vezel", category: "Guests", gradientIndex: 2 },
+  { label: "Whale watching off the southern coast", category: "Wildlife", gradientIndex: 3 },
+  { label: "Ella train winding through the hills", category: "Hiking", gradientIndex: 0 },
+] as const;
+
+export const galleryCategories = [
+  "All Photos",
+  "Culture",
+  "Wildlife",
+  "Beaches",
+  "Hiking",
+  "Guests",
 ] as const;
 
 export const packages = [
@@ -138,6 +195,14 @@ export const travelInfo = [
   { label: "Cultural Etiquette", href: "/travel-info#etiquette" },
   { label: "Emergency Contacts", href: "/travel-info#emergency" },
 ];
+
+export const weatherLocations = [
+  { name: "Colombo", lat: 6.9271, lon: 79.8612 },
+  { name: "Kandy", lat: 7.2906, lon: 80.6337 },
+  { name: "Ella", lat: 6.8667, lon: 81.0466 },
+  { name: "Yala", lat: 6.3728, lon: 81.5183 },
+  { name: "Galle", lat: 6.0535, lon: 80.221 },
+] as const;
 
 export const interests = [
   "Wildlife",
