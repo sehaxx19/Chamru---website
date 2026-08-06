@@ -1,0 +1,178 @@
+// Prisma schema for Travel with Chamru
+// Run `npx prisma generate` after installing, and `npx prisma migrate dev` to create tables.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Auth / Users ----------
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String? // null for OAuth-only accounts (Google)
+  role          Role      @default(CUSTOMER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts   Account[]
+  sessions   Session[]
+  inquiries  Inquiry[]
+  itineraries Itinerary[]
+}
+
+// NextAuth (Auth.js) required models for the Prisma adapter
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ---------- Trip planning ----------
+
+enum InquiryStatus {
+  PENDING
+  REVIEWED
+  QUOTED
+  CONFIRMED
+  DECLINED
+}
+
+model Inquiry {
+  id            String        @id @default(cuid())
+  name          String
+  email         String
+  phone         String?
+  travelDate    DateTime?
+  travelers     Int?
+  message       String?       @db.Text
+  itineraryId   String?
+  itinerary     Itinerary?    @relation(fields: [itineraryId], references: [id])
+  attachmentUrl String? // uploaded itinerary document, if provided instead of using the builder
+  status        InquiryStatus @default(PENDING)
+  quotedPriceLkr Int?
+  userId        String?
+  user          User?         @relation(fields: [userId], references: [id])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Itinerary {
+  id           String   @id @default(cuid())
+  title        String
+  days         Int
+  travelers    Int
+  interests    String[] // e.g. ["Wildlife", "Beaches", "Culture"]
+  budgetLkr    Int?
+  arrivalDate  DateTime?
+  generatedBy  String   @default("ai") // "ai" | "manual"
+  itineraryJson Json    // day-by-day plan: stops, driving times, estimated cost
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id])
+  inquiries    Inquiry[]
+  createdAt    DateTime @default(now())
+}
+
+// ---------- Content ----------
+
+model Destination {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  region       String
+  category     String // Wildlife | Beaches | Culture | Hiking | Tea Country | Adventure | Luxury
+  shortDesc    String
+  description  String   @db.Text
+  heroImageUrl String
+  galleryUrls  String[]
+  bestTime     String?
+  timeNeeded   String?
+  entranceFee  String?
+  latitude     Float?
+  longitude    Float?
+  createdAt    DateTime @default(now())
+}
+
+model Package {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String // "5 Days Tour", "Customized Tour"
+  days         Int
+  fromPriceLkr Int?
+  summary      String
+  highlights   String[]
+  heroImageUrl String
+  createdAt    DateTime @default(now())
+}
+
+model Vehicle {
+  id           String   @id @default(cuid())
+  name         String // "Honda Vezel (SUV)"
+  seats        Int
+  features     String[] // ["Air Conditioned", "Free Wi-Fi", "Phone Charging Ports", ...]
+  heroImageUrl String
+  photoUrls    String[]
+  createdAt    DateTime @default(now())
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  guestName  String
+  country    String?
+  rating     Int // 1-5
+  text       String   @db.Text
+  source     String // "Google" | "TripAdvisor" | "Manual"
+  photoUrl   String?
+  createdAt  DateTime @default(now())
+}
+
+model GalleryItem {
+  id        String   @id @default(cuid())
+  type      String // "photo" | "video"
+  url       String
+  category  String? // "Wildlife" | "Beaches" | "Drone" | ...
+  caption   String?
+  createdAt DateTime @default(now())
+}

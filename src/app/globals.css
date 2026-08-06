@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand palette — deep jungle green + warm sand, evoking the Sri Lankan
+     highlands at dusk and old travel-journal paper. */
+  --color-forest-950: #0b1f16;
+  --color-forest-900: #0f2e1f;
+  --color-forest-800: #163d29;
+  --color-forest-700: #1f5236;
+  --color-forest-600: #2a6b47;
+  --color-emerald-500: #23955f;
+  --color-emerald-400: #34ab72;
+  --color-sand-50: #fbf8f1;
+  --color-sand-100: #f5efe0;
+  --color-sand-200: #ece1c6;
+  --color-gold-400: #d4a24c;
+  --color-gold-500: #bd8a35;
+  --color-ink-900: #16221b;
+  --color-ink-600: #4a5850;
+
+  --background: var(--color-sand-50);
+  --foreground: var(--color-ink-900);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-forest-950: var(--color-forest-950);
+  --color-forest-900: var(--color-forest-900);
+  --color-forest-800: var(--color-forest-800);
+  --color-forest-700: var(--color-forest-700);
+  --color-forest-600: var(--color-forest-600);
+  --color-emerald-500: var(--color-emerald-500);
+  --color-emerald-400: var(--color-emerald-400);
+  --color-sand-50: var(--color-sand-50);
+  --color-sand-100: var(--color-sand-100);
+  --color-sand-200: var(--color-sand-200);
+  --color-gold-400: var(--color-gold-400);
+  --color-gold-500: var(--color-gold-500);
+  --color-ink-900: var(--color-ink-900);
+  --color-ink-600: var(--color-ink-600);
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Dashed route line — signature motif used to connect steps/stops,
+   echoing the driving-route concept at the heart of the business. */
+.route-line {
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-gold-400) 0,
+    var(--color-gold-400) 6px,
+    transparent 6px,
+    transparent 14px
+  );
+  height: 2px;
+}
+
+.route-line-v {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-gold-400) 0,
+    var(--color-gold-400) 6px,
+    transparent 6px,
+    transparent 14px
+  );
+  width: 2px;
+}
+
+.input-field {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--color-forest-900) 15%, transparent);
+  background: white;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--color-ink-900);
+  outline: none;
+}
+
+.input-field:focus {
+  border-color: var(--color-emerald-500);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-emerald-500) 30%, transparent);
+}
