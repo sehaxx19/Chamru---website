@@ -81,7 +81,7 @@ export default function Footer() {
           <ul className="mt-4 space-y-2 text-sm text-sand-100/70">
             <li>+94 70 77 33 647</li>
             <li>travelwithchamru@gmail.com</li>
-            <li>Kandy, Sri Lanka</li>
+            <li>Colombo, Sri Lanka</li>
           </ul>
         </div>
 

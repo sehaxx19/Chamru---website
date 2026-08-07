@@ -59,7 +59,7 @@ export default function ContactPage() {
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600">
                   <MapPin size={16} />
                 </span>
-                Kandy, Sri Lanka
+                Colombo, Sri Lanka
               </li>
             </ul>
             <div className="mt-6 h-56 rounded-xl bg-sand-100" aria-hidden="true" />
