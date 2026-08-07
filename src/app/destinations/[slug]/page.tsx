@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Clock, MapPin, Wallet, CalendarDays, ArrowLeft } from "lucide-react";
 import DestinationImage from "@/components/DestinationImage";
+import MapEmbed from "@/components/MapEmbed";
 import { destinations } from "@/data/sample-data";
 
 export function generateStaticParams() {
@@ -100,7 +101,11 @@ export default async function DestinationDetailPage({
                 <Wallet size={14} className="mt-0.5 text-emerald-600" /> Entrance fee: {destination.entranceFee}
               </li>
             </ul>
-            <div className="mt-5 h-32 rounded-lg bg-sand-100" aria-hidden="true" />
+            <MapEmbed
+              query={`${destination.name}, ${destination.region}, Sri Lanka`}
+              zoom={13}
+              className="mt-5 h-32 rounded-lg"
+            />
             <Link
               href="/itineraries"
               className="mt-5 block rounded-full bg-emerald-500 px-4 py-2.5 text-center text-sm font-semibold text-forest-950 hover:bg-emerald-400"

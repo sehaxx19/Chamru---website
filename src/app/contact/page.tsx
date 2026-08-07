@@ -3,6 +3,7 @@
 import { useState, FormEvent } from "react";
 import { Mail, MapPin, MessageCircle, Send } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
+import MapEmbed from "@/components/MapEmbed";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -62,7 +63,11 @@ export default function ContactPage() {
                 Colombo, Sri Lanka
               </li>
             </ul>
-            <div className="mt-6 h-56 rounded-xl bg-sand-100" aria-hidden="true" />
+            <MapEmbed
+              query="Colombo, Sri Lanka"
+              zoom={11}
+              className="mt-6 h-56 rounded-xl"
+            />
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-forest-900/10 bg-white p-6 shadow-sm">
