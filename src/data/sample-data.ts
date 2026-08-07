@@ -97,12 +97,51 @@ export const destinations = [
 ] as const;
 
 export const gallery = [
-  { label: "Sigiriya Rock Fortress at golden hour", category: "Culture", gradientIndex: 0 },
-  { label: "Nine Arches Bridge, Ella", category: "Hiking", gradientIndex: 1 },
-  { label: "Leopard on safari, Yala National Park", category: "Wildlife", gradientIndex: 2 },
-  { label: "Galle Fort ramparts at sunset", category: "Culture", gradientIndex: 3 },
-  { label: "Tea plantations, Nuwara Eliya", category: "Hiking", gradientIndex: 0 },
-  { label: "Mirissa beach and fishing boats", category: "Beaches", gradientIndex: 1 },
+  {
+    label: "Sigiriya Rock Fortress at golden hour",
+    category: "Culture",
+    gradientIndex: 0,
+    imageUrl:
+      "https://images.unsplash.com/photo-1751247026229-518bfec9b5e6?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    label: "Nine Arches Bridge, Ella",
+    category: "Hiking",
+    gradientIndex: 1,
+    imageUrl:
+      "https://images.unsplash.com/photo-1578848391986-547ff230b6d7?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    label: "Leopard on safari, Yala National Park",
+    category: "Wildlife",
+    gradientIndex: 2,
+    imageUrl:
+      "https://images.unsplash.com/photo-1566708627877-859df13ae63e?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    label: "Galle Fort ramparts at sunset",
+    category: "Culture",
+    gradientIndex: 3,
+    imageUrl:
+      "https://images.unsplash.com/photo-1568843240915-b512cc9b4415?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    label: "Tea plantations, Nuwara Eliya",
+    category: "Hiking",
+    gradientIndex: 0,
+    imageUrl:
+      "https://images.unsplash.com/photo-1559038298-ef4eecdfdbb3?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    label: "Mirissa beach and fishing boats",
+    category: "Beaches",
+    gradientIndex: 1,
+    imageUrl:
+      "https://images.unsplash.com/photo-1580910527739-556eb89f9d65?auto=format&fit=crop&w=1200&q=80",
+  },
+  // No real photo yet for these two — waiting on actual guest/whale-watching
+  // photos from Chamru rather than using a stock substitute for something
+  // that specific.
   { label: "Guests with Chamru and the Honda Vezel", category: "Guests", gradientIndex: 2 },
   { label: "Whale watching off the southern coast", category: "Wildlife", gradientIndex: 3 },
   { label: "Ella train winding through the hills", category: "Hiking", gradientIndex: 0 },

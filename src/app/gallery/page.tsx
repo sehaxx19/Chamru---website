@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import PageHeader from "@/components/PageHeader";
-import PhotoPlaceholder from "@/components/PhotoPlaceholder";
+import DestinationImage from "@/components/DestinationImage";
 import { gallery, galleryCategories } from "@/data/sample-data";
 
 export default function GalleryPage() {
@@ -38,11 +38,13 @@ export default function GalleryPage() {
 
         <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {filtered.map((item, i) => (
-            <PhotoPlaceholder
+            <DestinationImage
               key={item.label}
-              label={item.label}
+              src={"imageUrl" in item ? item.imageUrl : ""}
+              alt={item.label}
               gradientIndex={i}
               className="h-40 w-full rounded-xl sm:h-48"
+              sizes="(min-width: 1024px) 25vw, 50vw"
             />
           ))}
         </div>
