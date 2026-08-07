@@ -29,9 +29,9 @@ export const destinations = [
     category: "Hiking",
     shortDesc:
       "Scenic train rides, lush tea plantations and breathtaking mountain views.",
-    heroImageUrl:
-      "https://images.unsplash.com/photo-1559038298-ef4eecdfdbb3?auto=format&fit=crop&w=1600&q=80",
+    heroImageUrl: "/images/destinations/ella-user-2.jpg",
     galleryImageUrls: [
+      "/images/destinations/ella-user-1.jpg",
       "https://images.unsplash.com/photo-1619974643633-12acfdcedd16?auto=format&fit=crop&w=800&q=80",
     ],
     bestTime: "Jan – Mar",
@@ -46,6 +46,11 @@ export const destinations = [
     shortDesc: "Home to Sri Lanka's famous leopards and diverse wildlife.",
     heroImageUrl:
       "https://images.unsplash.com/photo-1566708627877-859df13ae63e?auto=format&fit=crop&w=1600&q=80",
+    galleryImageUrls: [
+      "/images/destinations/yala-user-1.jpg",
+      "/images/destinations/yala-user-2.jpg",
+      "/images/destinations/yala-user-3.jpg",
+    ],
     bestTime: "Feb – Jun",
     timeNeeded: "4–6 hrs",
     entranceFee: "LKR 15,000",
@@ -57,8 +62,11 @@ export const destinations = [
     category: "Culture",
     shortDesc:
       "Historic Dutch fort with charming streets and ocean views.",
-    heroImageUrl:
-      "https://images.unsplash.com/photo-1568843240915-b512cc9b4415?auto=format&fit=crop&w=1600&q=80",
+    heroImageUrl: "/images/destinations/galle-fort-user-1.jpg",
+    galleryImageUrls: [
+      "/images/destinations/galle-fort-user-2.jpg",
+      "/images/destinations/galle-fort-user-3.webp",
+    ],
     bestTime: "Dec – Apr",
     timeNeeded: "2–3 hrs",
     entranceFee: "Free",

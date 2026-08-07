@@ -34,8 +34,8 @@ export default function HomePage() {
       {/* ---------------- Hero ---------------- */}
       <section className="relative overflow-hidden bg-forest-950">
         <DestinationImage
-          src="https://images.unsplash.com/photo-1711797750174-c3750dd9d7c9?auto=format&fit=crop&w=1920&q=80"
-          alt="Sigiriya Rock Fortress at golden hour"
+          src="/images/hero/homepage-hero.jpg"
+          alt="Sigiriya Rock Fortress aerial view"
           className="absolute inset-0 h-full w-full opacity-70"
           priority
           sizes="100vw"
