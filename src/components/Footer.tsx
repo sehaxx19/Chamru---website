@@ -72,7 +72,7 @@ export default function Footer() {
             Contact Me
           </h3>
           <ul className="mt-4 space-y-2 text-sm text-sand-100/70">
-            <li>+94 77 123 4567</li>
+            <li>+94 70 77 33 647</li>
             <li>travelwithchamru@gmail.com</li>
             <li>Kandy, Sri Lanka</li>
           </ul>

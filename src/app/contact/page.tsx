@@ -47,7 +47,7 @@ export default function ContactPage() {
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600">
                   <MessageCircle size={16} />
                 </span>
-                WhatsApp: +94 77 123 4567
+                WhatsApp: +94 70 77 33 647
               </li>
               <li className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600">

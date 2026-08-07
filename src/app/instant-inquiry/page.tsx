@@ -43,7 +43,7 @@ export default function InstantInquiryPage() {
 
       <section className="mx-auto max-w-xl px-4 py-14 sm:px-6 lg:px-8">
         <a
-          href="https://wa.me/94771234567"
+          href="https://wa.me/94707733647"
           target="_blank"
           rel="noopener noreferrer"
           className="mb-8 flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90"
