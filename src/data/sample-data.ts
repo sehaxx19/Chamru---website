@@ -16,6 +16,7 @@ export const destinations = [
     galleryImageUrls: [
       "https://images.unsplash.com/photo-1612862862126-865765df2ded?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1711797750174-c3750dd9d7c9?auto=format&fit=crop&w=800&q=80",
+      "/images/destinations/sigiriya-user-1.jpg",
     ],
     bestTime: "Apr – Sep",
     timeNeeded: "2–3 hrs",

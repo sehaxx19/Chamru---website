@@ -16,7 +16,8 @@ export default function DestinationImage({
   priority?: boolean;
   sizes?: string;
 }) {
-  if (!src.startsWith("http")) {
+  const hasRealPhoto = src.startsWith("http") || src.startsWith("/");
+  if (!hasRealPhoto) {
     return <PhotoPlaceholder label={alt} gradientIndex={gradientIndex} className={className} />;
   }
 
