@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Palmtree, MessageCircle } from "lucide-react";
+import Image from "next/image";
+import { MessageCircle } from "lucide-react";
 
 // lucide-react no longer ships brand icons, so these are small inline SVGs.
 function FacebookIcon({ size = 18 }: { size?: number }) {
@@ -26,8 +27,14 @@ export default function Footer() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
         <div>
           <div className="flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
-              <Palmtree size={18} />
+            <span className="relative h-9 w-9 shrink-0">
+              <Image
+                src="/images/brand/chamru-logo-128.png"
+                alt="Travel with Chamru logo"
+                fill
+                sizes="36px"
+                className="object-contain"
+              />
             </span>
             <span className="font-display text-lg font-semibold text-sand-50">
               Travel with Chamru

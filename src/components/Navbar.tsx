@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
-import { Menu, X, Palmtree } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -24,15 +25,22 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-forest-900/10 bg-sand-50/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-forest-900 text-sand-50">
-            <Palmtree size={18} />
+          <span className="relative h-10 w-10 shrink-0">
+            <Image
+              src="/images/brand/chamru-logo.png"
+              alt="Travel with Chamru logo"
+              fill
+              sizes="40px"
+              className="object-contain"
+              priority
+            />
           </span>
           <span className="leading-tight">
             <span className="block font-display text-lg font-semibold text-forest-900">
               Travel with Chamru
             </span>
             <span className="block text-[11px] tracking-wide text-ink-600">
-              Your Trusted Driver &amp; Guide in Sri Lanka
+              Your Trusted Travel Partner
             </span>
           </span>
         </Link>
