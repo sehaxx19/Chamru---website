@@ -13,6 +13,10 @@ export const destinations = [
       "UNESCO World Heritage Site. Climb the Lion Rock and enjoy breathtaking views.",
     heroImageUrl:
       "https://images.unsplash.com/photo-1751247026229-518bfec9b5e6?auto=format&fit=crop&w=1600&q=80",
+    galleryImageUrls: [
+      "https://images.unsplash.com/photo-1612862862126-865765df2ded?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1711797750174-c3750dd9d7c9?auto=format&fit=crop&w=800&q=80",
+    ],
     bestTime: "Apr – Sep",
     timeNeeded: "2–3 hrs",
     entranceFee: "LKR 4,500",
@@ -26,6 +30,9 @@ export const destinations = [
       "Scenic train rides, lush tea plantations and breathtaking mountain views.",
     heroImageUrl:
       "https://images.unsplash.com/photo-1559038298-ef4eecdfdbb3?auto=format&fit=crop&w=1600&q=80",
+    galleryImageUrls: [
+      "https://images.unsplash.com/photo-1619974643633-12acfdcedd16?auto=format&fit=crop&w=800&q=80",
+    ],
     bestTime: "Jan – Mar",
     timeNeeded: "1–2 hrs",
     entranceFee: "Free",

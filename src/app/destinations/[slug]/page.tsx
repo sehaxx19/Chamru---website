@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Clock, MapPin, Wallet, CalendarDays, ArrowLeft } from "lucide-react";
-import PhotoPlaceholder from "@/components/PhotoPlaceholder";
 import DestinationImage from "@/components/DestinationImage";
 import { destinations } from "@/data/sample-data";
 
@@ -65,14 +64,21 @@ export default async function DestinationDetailPage({
               Gallery
             </h2>
             <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {[0, 1, 2].map((i) => (
-                <PhotoPlaceholder
-                  key={i}
-                  label={`${destination.name} photo ${i + 1}`}
-                  gradientIndex={i}
-                  className="h-24 w-full rounded-lg"
-                />
-              ))}
+              {[0, 1, 2].map((i) => {
+                const extraPhotos =
+                  "galleryImageUrls" in destination ? destination.galleryImageUrls : [];
+                const src = extraPhotos[i] ?? "";
+                return (
+                  <DestinationImage
+                    key={i}
+                    src={src}
+                    alt={`${destination.name} photo ${i + 1}`}
+                    gradientIndex={i}
+                    className="h-24 w-full rounded-lg"
+                    sizes="33vw"
+                  />
+                );
+              })}
             </div>
           </div>
 
