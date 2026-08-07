@@ -33,9 +33,12 @@ export default function HomePage() {
     <>
       {/* ---------------- Hero ---------------- */}
       <section className="relative overflow-hidden bg-forest-950">
-        <PhotoPlaceholder
-          label="Hero photo — traveler overlooking Sigiriya at golden hour"
+        <DestinationImage
+          src="https://images.unsplash.com/photo-1711797750174-c3750dd9d7c9?auto=format&fit=crop&w=1920&q=80"
+          alt="Sigiriya Rock Fortress at golden hour"
           className="absolute inset-0 h-full w-full opacity-70"
+          priority
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/60 to-forest-950/20" />
 
