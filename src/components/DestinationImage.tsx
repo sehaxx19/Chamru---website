@@ -21,8 +21,10 @@ export default function DestinationImage({
     return <PhotoPlaceholder label={alt} gradientIndex={gradientIndex} className={className} />;
   }
 
+  const hasPosition = /\b(absolute|fixed|sticky|relative)\b/.test(className);
+
   return (
-    <div className={`relative overflow-hidden ${className}`}>
+    <div className={`${hasPosition ? "" : "relative"} overflow-hidden ${className}`}>
       <Image
         src={src}
         alt={alt}
