@@ -80,6 +80,7 @@ export const destinations = [
       "Iconic colonial-era railway bridge set among tea plantations — best at sunrise.",
     heroImageUrl:
       "https://images.unsplash.com/photo-1578848391986-547ff230b6d7?auto=format&fit=crop&w=1600&q=80",
+    galleryImageUrls: ["/images/destinations/nine-arches-user-1.jpg"],
     bestTime: "Jan – Mar",
     timeNeeded: "1 hr",
     entranceFee: "Free",
@@ -104,8 +105,11 @@ export const destinations = [
     category: "Beaches",
     shortDesc:
       "Golden-sand beach famous for whale watching and laid-back beach cafes.",
-    heroImageUrl:
-      "https://images.unsplash.com/photo-1580910527739-556eb89f9d65?auto=format&fit=crop&w=1600&q=80",
+    heroImageUrl: "/images/destinations/mirissa-user-2.jpg",
+    galleryImageUrls: [
+      "/images/destinations/mirissa-user-1.jpg",
+      "/images/destinations/mirissa-user-3.jpg",
+    ],
     bestTime: "Nov – Apr",
     timeNeeded: "Half day",
     entranceFee: "Free",
