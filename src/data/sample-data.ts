@@ -66,6 +66,7 @@ export const destinations = [
     galleryImageUrls: [
       "/images/destinations/galle-fort-user-2.jpg",
       "/images/destinations/galle-fort-user-3.webp",
+      "/images/destinations/galle-fort-user-4.jpg",
     ],
     bestTime: "Dec – Apr",
     timeNeeded: "2–3 hrs",
