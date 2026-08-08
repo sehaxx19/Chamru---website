@@ -54,11 +54,11 @@ export default function VehiclePage() {
         </h2>
         <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-5">
           {[
-            { label: "Front seats", src: "https://images.unsplash.com/photo-1677917367471-6b098b6bcc96?auto=format&fit=crop&w=600&q=80" },
-            { label: "Rear seating", src: "" },
+            { label: "Front seats", src: "/images/vehicle-front-seats.jpg" },
+            { label: "Rear seating", src: "/images/vehicle-rear-seats.jpg" },
             { label: "Luggage space", src: "" },
-            { label: "Dashboard", src: "" },
-            { label: "Exterior", src: "" },
+            { label: "Dashboard", src: "/images/vehicle-dashboard.jpg" },
+            { label: "Exterior", src: "/images/vehicle-rear-exterior.jpg" },
           ].map((item, i) => (
             <DestinationImage
               key={item.label}
