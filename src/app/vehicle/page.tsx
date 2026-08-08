@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { Check, Users } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import DestinationImage from "@/components/DestinationImage";
 import { vehicle } from "@/data/sample-data";
@@ -68,6 +68,31 @@ export default function VehiclePage() {
               className="h-28 w-full rounded-lg"
             />
           ))}
+        </div>
+
+        <div className="mt-12 flex flex-col gap-4 rounded-2xl border border-forest-900/10 bg-sand-100 p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-700">
+              <Users size={18} />
+            </span>
+            <div>
+              <h3 className="font-display text-base font-semibold text-forest-900">
+                Traveling as a larger group?
+              </h3>
+              <p className="mt-1 max-w-lg text-sm text-ink-600">
+                The Vezel is ideal for individuals, couples, and small families.
+                For bigger groups, larger vehicles — such as a Toyota Hiace
+                van — can be arranged. Just mention your group size when you
+                inquire and I&rsquo;ll confirm availability.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/instant-inquiry"
+            className="inline-flex shrink-0 items-center justify-center rounded-full border border-forest-900/15 px-5 py-2.5 text-sm font-semibold text-forest-900 transition hover:bg-white"
+          >
+            Ask About Group Vehicles
+          </Link>
         </div>
       </section>
     </>

@@ -243,6 +243,10 @@ export const faqs = [
     a: "Yes, airport pickup and drop-off is included in all tour packages.",
   },
   {
+    q: "Do you have vehicles for larger groups?",
+    a: "The Honda Vezel is ideal for individuals, couples, and small families. For bigger groups, larger vehicles such as a Toyota Hiace van can be arranged — just let me know your group size when you inquire and I'll confirm availability.",
+  },
+  {
     q: "What payment methods do you accept?",
     a: "Bank transfer, major cards, and cash on arrival are all accepted. Details are shared with your quote.",
   },
