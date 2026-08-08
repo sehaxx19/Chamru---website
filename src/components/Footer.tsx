@@ -41,7 +41,7 @@ export default function Footer() {
             </span>
           </div>
           <p className="mt-3 max-w-xs text-sm text-sand-100/70">
-            Your trusted driver and guide for safe, comfortable, personalized
+            Your trusted travel partner for safe, comfortable, personalized
             journeys across Sri Lanka.
           </p>
           <div className="mt-4 flex gap-3">

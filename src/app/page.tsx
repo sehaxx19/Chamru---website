@@ -48,7 +48,7 @@ export default function HomePage() {
                 Discover Sri Lanka
                 <br />
                 <span className="italic text-emerald-400">
-                  with a trusted local driver &amp; guide.
+                  with your trusted travel partner.
                 </span>
               </h1>
               <p className="mt-5 max-w-xl text-base text-sand-100/80 sm:text-lg">

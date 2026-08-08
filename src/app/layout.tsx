@@ -18,9 +18,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Travel with Chamru | Trusted Local Driver & Guide in Sri Lanka",
+  title: "Travel with Chamru | Your Trusted Travel Partner in Sri Lanka",
   description:
-    "Discover Sri Lanka with a trusted local driver and guide. Private tours, flexible itineraries, fair pricing, no hidden charges.",
+    "Discover Sri Lanka with your trusted travel partner. Private tours, flexible itineraries, fair pricing, no hidden charges.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

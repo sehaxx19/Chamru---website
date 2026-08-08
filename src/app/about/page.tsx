@@ -10,7 +10,7 @@ export default function AboutPage() {
         <PhotoPlaceholder label="Chamru with the Honda Vezel" className="h-80 w-full rounded-2xl" gradientIndex={1} />
         <div>
           <h2 className="font-display text-2xl font-semibold text-forest-900">
-            Your Friendly Local Driver &amp; Guide in Sri Lanka
+            Your Trusted Travel Partner in Sri Lanka
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-ink-600">
             I&rsquo;m Chamru, a professional driver and guide with years of
