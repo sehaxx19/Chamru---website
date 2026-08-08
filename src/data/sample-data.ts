@@ -153,11 +153,10 @@ export const gallery = [
       "https://images.unsplash.com/photo-1559038298-ef4eecdfdbb3?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    label: "Mirissa beach and fishing boats",
+    label: "Sunset over Mirissa beach",
     category: "Beaches",
     gradientIndex: 1,
-    imageUrl:
-      "https://images.unsplash.com/photo-1580910527739-556eb89f9d65?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "/images/destinations/mirissa-user-4.jpg",
   },
   // No real photo yet for these two — waiting on actual guest/whale-watching
   // photos from Chamru rather than using a stock substitute for something
