@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { CalendarDays, ArrowRight } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
-import PhotoPlaceholder from "@/components/PhotoPlaceholder";
+import DestinationImage from "@/components/DestinationImage";
 import { packages } from "@/data/sample-data";
 
 export const metadata = {
@@ -25,7 +25,7 @@ export default function PackagesPage() {
               href={`/packages/${p.slug}`}
               className="group overflow-hidden rounded-xl border border-forest-900/10 bg-white shadow-sm transition hover:shadow-md"
             >
-              <PhotoPlaceholder label={p.name} gradientIndex={i} className="h-40 w-full" />
+              <DestinationImage src={p.imageUrl} alt={p.name} gradientIndex={i} className="h-40 w-full" />
               <div className="p-5">
                 <h3 className="font-display text-base font-semibold text-forest-900">
                   {p.name}

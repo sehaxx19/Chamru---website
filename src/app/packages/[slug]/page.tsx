@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check, MapPin } from "lucide-react";
-import PhotoPlaceholder from "@/components/PhotoPlaceholder";
+import DestinationImage from "@/components/DestinationImage";
 import { packages, destinations } from "@/data/sample-data";
 
 export function generateStaticParams() {
@@ -42,7 +42,13 @@ export default async function PackageDetailPage({
   return (
     <>
       <section className="relative overflow-hidden bg-forest-950">
-        <PhotoPlaceholder label={pkg.name} className="absolute inset-0 h-full w-full opacity-60" />
+        <DestinationImage
+          src={pkg.imageUrl}
+          alt={pkg.name}
+          className="absolute inset-0 h-full w-full opacity-60"
+          priority
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/60 to-forest-950/20" />
         <div className="relative mx-auto max-w-5xl px-4 pb-12 pt-10 sm:px-6 lg:px-8">
           <Link href="/packages" className="inline-flex items-center gap-1.5 text-sm text-sand-100/80 hover:text-sand-50">

@@ -173,11 +173,46 @@ export const galleryCategories = [
 ] as const;
 
 export const packages = [
-  { slug: "5-day-tour", name: "5 Days Tour", days: 5, fromPriceLkr: 95000 },
-  { slug: "7-day-tour", name: "7 Days Tour", days: 7, fromPriceLkr: 135000 },
-  { slug: "10-day-tour", name: "10 Days Tour", days: 10, fromPriceLkr: 175000 },
-  { slug: "14-day-tour", name: "14 Days Tour", days: 14, fromPriceLkr: 245000 },
-  { slug: "customized-tour", name: "Customized Tour", days: 0, fromPriceLkr: null },
+  {
+    slug: "5-day-tour",
+    name: "5 Days Tour",
+    days: 5,
+    fromPriceLkr: 95000,
+    imageUrl:
+      "https://images.unsplash.com/photo-1612862862126-865765df2ded?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    slug: "7-day-tour",
+    name: "7 Days Tour",
+    days: 7,
+    fromPriceLkr: 135000,
+    imageUrl:
+      "https://images.unsplash.com/photo-1566296314736-6eaac1ca0cb9?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    slug: "10-day-tour",
+    name: "10 Days Tour",
+    days: 10,
+    fromPriceLkr: 175000,
+    imageUrl:
+      "https://images.unsplash.com/photo-1609242030544-f2a37bab739c?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    slug: "14-day-tour",
+    name: "14 Days Tour",
+    days: 14,
+    fromPriceLkr: 245000,
+    imageUrl:
+      "https://images.unsplash.com/photo-1657036165933-52a6863153d8?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    slug: "customized-tour",
+    name: "Customized Tour",
+    days: 0,
+    fromPriceLkr: null,
+    imageUrl:
+      "https://images.unsplash.com/photo-1531201890865-fb64780d16e9?auto=format&fit=crop&w=1200&q=80",
+  },
 ] as const;
 
 export const vehicle = {
