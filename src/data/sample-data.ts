@@ -107,8 +107,8 @@ export const destinations = [
       "Golden-sand beach famous for whale watching and laid-back beach cafes.",
     heroImageUrl: "/images/destinations/mirissa-user-2.jpg",
     galleryImageUrls: [
-      "/images/destinations/mirissa-user-1.jpg",
-      "/images/destinations/mirissa-user-3.jpg",
+      "/images/destinations/mirissa-user-5.jpg",
+      "/images/destinations/mirissa-user-6.jpg",
     ],
     bestTime: "Nov – Apr",
     timeNeeded: "Half day",
