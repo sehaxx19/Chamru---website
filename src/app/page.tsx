@@ -17,7 +17,6 @@ import {
   ShieldCheck,
   Ban,
 } from "lucide-react";
-import PhotoPlaceholder from "@/components/PhotoPlaceholder";
 import DestinationImage from "@/components/DestinationImage";
 import {
   destinations,
@@ -209,10 +208,12 @@ export default function HomePage() {
             <h3 className="font-display text-xl font-semibold text-forest-900">
               {vehicle.name}
             </h3>
-            <PhotoPlaceholder
-              label={`${vehicle.name} — exterior`}
+            <DestinationImage
+              src="/images/vehicle-user-1.jpg"
+              alt={`${vehicle.name} — exterior`}
               gradientIndex={2}
               className="mt-3 h-48 w-full rounded-lg"
+              sizes="(min-width: 1024px) 50vw, 100vw"
             />
             <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-ink-600">
               <li className="flex items-center gap-1.5"><Snowflake size={14} className="text-emerald-600" /> Air Conditioned</li>
