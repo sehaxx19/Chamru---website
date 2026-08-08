@@ -45,7 +45,13 @@ export default function Footer() {
             journeys across Sri Lanka.
           </p>
           <div className="mt-4 flex gap-3">
-            <a href="#" aria-label="Facebook" className="text-sand-100/70 hover:text-emerald-400">
+            <a
+              href="https://www.facebook.com/share/1DdUfhcM65/?mibextid=wwXIfr"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="text-sand-100/70 hover:text-emerald-400"
+            >
               <FacebookIcon size={18} />
             </a>
             <a href="#" aria-label="Instagram" className="text-sand-100/70 hover:text-emerald-400">
