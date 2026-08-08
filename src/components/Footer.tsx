@@ -85,8 +85,16 @@ export default function Footer() {
             Contact Me
           </h3>
           <ul className="mt-4 space-y-2 text-sm text-sand-100/70">
-            <li>+94 70 77 33 647</li>
-            <li>travelwithchamru@gmail.com</li>
+            <li>
+              <a href="tel:+94707733647" className="hover:text-emerald-400">
+                +94 70 77 33 647
+              </a>
+            </li>
+            <li>
+              <a href="mailto:travelwithchamru@gmail.com" className="hover:text-emerald-400">
+                travelwithchamru@gmail.com
+              </a>
+            </li>
             <li>Colombo, Sri Lanka</li>
           </ul>
         </div>

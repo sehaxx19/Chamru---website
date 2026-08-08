@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { Mail, MapPin, MessageCircle, Send } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import MapEmbed from "@/components/MapEmbed";
 
@@ -48,13 +48,25 @@ export default function ContactPage() {
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600">
                   <MessageCircle size={16} />
                 </span>
-                WhatsApp: +94 70 77 33 647
+                <a href="https://wa.me/94707733647" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-600">
+                  WhatsApp: +94 70 77 33 647
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600">
+                  <Phone size={16} />
+                </span>
+                <a href="tel:+94707733647" className="hover:text-emerald-600">
+                  Call: +94 70 77 33 647
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600">
                   <Mail size={16} />
                 </span>
-                travelwithchamru@gmail.com
+                <a href="mailto:travelwithchamru@gmail.com" className="hover:text-emerald-600">
+                  travelwithchamru@gmail.com
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600">
