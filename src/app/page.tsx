@@ -18,13 +18,13 @@ import {
   Ban,
 } from "lucide-react";
 import DestinationImage from "@/components/DestinationImage";
+import ItineraryBuilderBar from "@/components/ItineraryBuilderBar";
 import {
   destinations,
   packages,
   vehicle,
   reviews,
   whyChooseUs,
-  interests,
 } from "@/data/sample-data";
 
 export default function HomePage() {
@@ -360,68 +360,5 @@ export default function HomePage() {
         </div>
       </section>
     </>
-  );
-}
-
-function ItineraryBuilderBar() {
-  return (
-    <form className="rounded-2xl bg-sand-50 p-4 shadow-xl sm:p-5">
-      <div className="mb-3 flex items-center gap-2 text-forest-900">
-        <Sparkles size={15} className="text-emerald-600" />
-        <span className="text-sm font-semibold">Build Your Own Itinerary</span>
-      </div>
-      <div className="grid gap-3 lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_auto]">
-        <Field label="Arrival Date">
-          <input type="date" className="input-field" />
-        </Field>
-        <Field label="No. of Days">
-          <select className="input-field">
-            <option>Select days</option>
-            {[3, 5, 7, 10, 14].map((d) => (
-              <option key={d}>{d} days</option>
-            ))}
-          </select>
-        </Field>
-        <Field label="Travelers">
-          <input type="number" min={1} defaultValue={1} className="input-field" />
-        </Field>
-        <Field label="Interests">
-          <select className="input-field">
-            <option>Select interests</option>
-            {interests.map((i) => (
-              <option key={i}>{i}</option>
-            ))}
-          </select>
-        </Field>
-        <Field label="Budget">
-          <input type="text" placeholder="Select budget" className="input-field" />
-        </Field>
-        <button
-          type="submit"
-          className="flex items-center justify-center gap-2 self-end rounded-full bg-forest-900 px-5 py-2.5 text-sm font-semibold text-sand-50 hover:bg-forest-800"
-        >
-          Get My Itinerary <ArrowRight size={15} />
-        </button>
-      </div>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {interests.map((i) => (
-          <span
-            key={i}
-            className="rounded-full border border-forest-900/15 px-3 py-1 text-xs font-medium text-ink-900"
-          >
-            {i}
-          </span>
-        ))}
-      </div>
-    </form>
-  );
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <label className="block text-xs">
-      <span className="mb-1 block font-medium text-ink-600">{label}</span>
-      {children}
-    </label>
   );
 }

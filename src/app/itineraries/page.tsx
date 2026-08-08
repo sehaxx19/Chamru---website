@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useEffect, useRef, Suspense, FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
 import { ArrowRight, Sparkles, Download } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import { interests as INTEREST_OPTIONS } from "@/data/sample-data";
@@ -23,7 +24,21 @@ type ItineraryResult = {
 };
 
 export default function ItinerariesPage() {
-  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  return (
+    <Suspense fallback={null}>
+      <ItinerariesPageInner />
+    </Suspense>
+  );
+}
+
+function ItinerariesPageInner() {
+  const searchParams = useSearchParams();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const prefillInterests = searchParams.get("interests");
+  const [selectedInterests, setSelectedInterests] = useState<string[]>(() =>
+    prefillInterests ? prefillInterests.split(",").filter(Boolean) : []
+  );
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [result, setResult] = useState<ItineraryResult["itineraryJson"] | null>(null);
 
@@ -67,6 +82,17 @@ export default function ItinerariesPage() {
     }
   }
 
+  // If arriving from the homepage's "Get My Itinerary" button, the form is
+  // pre-filled via the URL and should submit itself once. Dispatching a real
+  // submit event (rather than calling handleSubmit directly) keeps this
+  // effect's own call stack free of state updates.
+  useEffect(() => {
+    if (searchParams.get("autorun") === "1") {
+      formRef.current?.requestSubmit();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <PageHeader
@@ -77,15 +103,28 @@ export default function ItinerariesPage() {
 
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
-          <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl border border-forest-900/10 bg-white p-6 shadow-sm">
+          <form
+            ref={formRef}
+            onSubmit={handleSubmit}
+            className="space-y-5 rounded-2xl border border-forest-900/10 bg-white p-6 shadow-sm"
+          >
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block text-xs">
                 <span className="mb-1 block font-medium text-ink-600">Arrival date</span>
-                <input name="arrivalDate" type="date" className="input-field" />
+                <input
+                  name="arrivalDate"
+                  type="date"
+                  defaultValue={searchParams.get("arrivalDate") ?? undefined}
+                  className="input-field"
+                />
               </label>
               <label className="block text-xs">
                 <span className="mb-1 block font-medium text-ink-600">Number of days</span>
-                <select name="days" className="input-field">
+                <select
+                  name="days"
+                  defaultValue={searchParams.get("days") ?? ""}
+                  className="input-field"
+                >
                   <option value="">Select days</option>
                   {[3, 5, 7, 10, 14].map((d) => (
                     <option key={d} value={d}>{d} days</option>
@@ -94,11 +133,24 @@ export default function ItinerariesPage() {
               </label>
               <label className="block text-xs">
                 <span className="mb-1 block font-medium text-ink-600">Travelers</span>
-                <input name="travelers" type="number" min={1} defaultValue={2} className="input-field" />
+                <input
+                  name="travelers"
+                  type="number"
+                  min={1}
+                  defaultValue={searchParams.get("travelers") ?? 2}
+                  className="input-field"
+                />
               </label>
               <label className="block text-xs">
                 <span className="mb-1 block font-medium text-ink-600">Budget (LKR, total)</span>
-                <input name="budget" type="number" min={0} placeholder="e.g. 250000" className="input-field" />
+                <input
+                  name="budget"
+                  type="number"
+                  min={0}
+                  placeholder="e.g. 250000"
+                  defaultValue={searchParams.get("budget") ?? undefined}
+                  className="input-field"
+                />
               </label>
             </div>
 
