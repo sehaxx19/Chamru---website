@@ -45,29 +45,29 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-ink-900/80 transition hover:text-forest-900"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <div className="hidden items-center gap-8 xl:flex">
+          <nav className="flex items-center gap-5">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-ink-900/80 transition hover:text-forest-900"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
-        <div className="hidden lg:block">
           <Link
             href="/plan-your-trip"
-            className="rounded-full bg-forest-900 px-5 py-2.5 text-sm font-semibold text-sand-50 transition hover:bg-forest-800"
+            className="shrink-0 rounded-full bg-forest-900 px-5 py-2.5 text-sm font-semibold text-sand-50 transition hover:bg-forest-800"
           >
             Plan Your Trip
           </Link>
         </div>
 
         <button
-          className="lg:hidden"
+          className="xl:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -77,7 +77,7 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <div className="border-t border-forest-900/10 bg-sand-50 px-4 pb-4 lg:hidden">
+        <div className="border-t border-forest-900/10 bg-sand-50 px-4 pb-4 xl:hidden">
           <nav className="flex flex-col gap-1 pt-2">
             {NAV_LINKS.map((link) => (
               <Link
