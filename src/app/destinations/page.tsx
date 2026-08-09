@@ -27,11 +27,11 @@ export default function DestinationsPage() {
             >
               <DestinationImage src={d.heroImageUrl} alt={d.name} gradientIndex={i} className="h-44 w-full" />
               <div className="p-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-display text-base font-semibold text-forest-900">
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="min-w-0 font-display text-base font-semibold text-forest-900">
                     {d.name}
                   </h3>
-                  <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-700">
+                  <span className="shrink-0 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-700">
                     {d.category}
                   </span>
                 </div>

@@ -27,7 +27,7 @@ export default function AboutPage() {
             <li className="flex items-center gap-2"><ShieldCheck size={16} className="text-emerald-600" /> Clean driving record</li>
           </ul>
 
-          <div className="mt-8 grid grid-cols-4 gap-4 border-t border-forest-900/10 pt-6 text-center">
+          <div className="mt-8 grid grid-cols-2 gap-4 border-t border-forest-900/10 pt-6 text-center sm:grid-cols-4">
             <div><p className="font-display text-xl font-semibold text-forest-900">5+</p><p className="text-xs text-ink-600">Years Experience</p></div>
             <div><p className="font-display text-xl font-semibold text-forest-900">1000+</p><p className="text-xs text-ink-600">Happy Guests</p></div>
             <div><p className="font-display text-xl font-semibold text-forest-900">5★</p><p className="text-xs text-ink-600">Google Rating</p></div>
