@@ -32,7 +32,7 @@ export const destinations = [
     heroImageUrl: "/images/destinations/ella-user-2.jpg",
     galleryImageUrls: [
       "/images/destinations/ella-user-1.jpg",
-      "https://images.unsplash.com/photo-1619974643633-12acfdcedd16?auto=format&fit=crop&w=800&q=80",
+      "/images/destinations/ella-station-sign.jpg",
     ],
     bestTime: "Jan – Mar",
     timeNeeded: "1–2 hrs",
@@ -79,9 +79,11 @@ export const destinations = [
     category: "Hiking",
     shortDesc:
       "Iconic colonial-era railway bridge set among tea plantations — best at sunrise.",
-    heroImageUrl:
-      "https://images.unsplash.com/photo-1578848391986-547ff230b6d7?auto=format&fit=crop&w=1600&q=80",
-    galleryImageUrls: ["/images/destinations/nine-arches-user-1.jpg"],
+    heroImageUrl: "/images/destinations/nine-arches-hero.jpg",
+    galleryImageUrls: [
+      "/images/destinations/nine-arches-user-1.jpg",
+      "/images/destinations/nine-arches-user-2.jpg",
+    ],
     bestTime: "Jan – Mar",
     timeNeeded: "1 hr",
     entranceFee: "Free",
@@ -93,8 +95,11 @@ export const destinations = [
     category: "Culture",
     shortDesc:
       "Sacred Buddhist temple in the hill capital, home to a relic of the Buddha's tooth.",
-    heroImageUrl:
-      "https://images.unsplash.com/photo-1665849050430-5e8c16bacf7e?auto=format&fit=crop&w=1600&q=80",
+    heroImageUrl: "/images/destinations/temple-of-tooth-hero.jpg",
+    galleryImageUrls: [
+      "/images/destinations/temple-of-tooth-user-1.jpg",
+      "/images/destinations/temple-of-tooth-user-2.jpg",
+    ],
     bestTime: "Year-round",
     timeNeeded: "1–2 hrs",
     entranceFee: "LKR 1,500",
@@ -164,7 +169,18 @@ export const gallery = [
   // that specific.
   { label: "Guests with Chamru and the Honda Vezel", category: "Guests", gradientIndex: 2 },
   { label: "Whale watching off the southern coast", category: "Wildlife", gradientIndex: 3 },
-  { label: "Ella train winding through the hills", category: "Hiking", gradientIndex: 0 },
+  {
+    label: "Ella train winding through the hills",
+    category: "Hiking",
+    gradientIndex: 0,
+    imageUrl: "/images/destinations/nine-arches-hero.jpg",
+  },
+  {
+    label: "Traditional stilt fishing, southern coast",
+    category: "Culture",
+    gradientIndex: 1,
+    imageUrl: "/images/destinations/stilt-fishermen.jpg",
+  },
 ] as const;
 
 export const galleryCategories = [
