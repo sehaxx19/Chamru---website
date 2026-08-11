@@ -83,6 +83,7 @@ export const destinations = [
     galleryImageUrls: [
       "/images/destinations/nine-arches-user-1.jpg",
       "/images/destinations/nine-arches-user-2.jpg",
+      "/images/destinations/nine-arches-user-3.jpg",
     ],
     bestTime: "Jan – Mar",
     timeNeeded: "1 hr",
@@ -99,6 +100,7 @@ export const destinations = [
     galleryImageUrls: [
       "/images/destinations/temple-of-tooth-user-1.jpg",
       "/images/destinations/temple-of-tooth-user-2.jpg",
+      "/images/destinations/temple-of-tooth-user-3.jpg",
     ],
     bestTime: "Year-round",
     timeNeeded: "1–2 hrs",
@@ -180,6 +182,18 @@ export const gallery = [
     category: "Culture",
     gradientIndex: 1,
     imageUrl: "/images/destinations/stilt-fishermen.jpg",
+  },
+  {
+    label: "Waterfall hike, hill country",
+    category: "Hiking",
+    gradientIndex: 2,
+    imageUrl: "/images/destinations/waterfall-hillcountry.jpg",
+  },
+  {
+    label: "Beachfront evening, southern coast",
+    category: "Beaches",
+    gradientIndex: 3,
+    imageUrl: "/images/destinations/beachfront-evening.jpg",
   },
 ] as const;
 
