@@ -6,7 +6,8 @@ import PageHeader from "@/components/PageHeader";
 import SignOutButton from "@/components/SignOutButton";
 
 export const metadata = {
-  title: "Admin | Travel with Chamru",
+  title: "Admin",
+  robots: { index: false, follow: false },
 };
 
 const STATUS_STYLES: Record<string, string> = {

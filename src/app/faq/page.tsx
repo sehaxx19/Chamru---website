@@ -3,7 +3,9 @@ import PageHeader from "@/components/PageHeader";
 import { faqs } from "@/data/sample-data";
 
 export const metadata = {
-  title: "FAQ | Travel with Chamru",
+  title: "FAQ",
+  description:
+    "Answers to common questions about touring Sri Lanka with Chamru — deposits, customization, train tickets, safari jeeps, airport pickup, and payment.",
 };
 
 export default function FaqPage() {

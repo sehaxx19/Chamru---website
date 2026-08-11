@@ -8,6 +8,29 @@ export function generateStaticParams() {
   return packages.map((p) => ({ slug: p.slug }));
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const pkg = packages.find((p) => p.slug === slug);
+  if (!pkg) return {};
+
+  const description =
+    pkg.days > 0
+      ? `${pkg.name} covering Sri Lanka's top destinations, from LKR ${pkg.fromPriceLkr?.toLocaleString()}. Private tour with Travel with Chamru — flexible, comfortable, fairly priced.`
+      : "A fully customized Sri Lanka tour built entirely around your dates, interests, and budget with Travel with Chamru.";
+
+  return {
+    title: pkg.name,
+    description,
+    openGraph: pkg.imageUrl.startsWith("http") || pkg.imageUrl.startsWith("/")
+      ? { images: [{ url: pkg.imageUrl }] }
+      : undefined,
+  };
+}
+
 const INCLUDES = [
   "Private vehicle with air conditioning",
   "English-speaking driver & guide",

@@ -5,7 +5,9 @@ import DestinationImage from "@/components/DestinationImage";
 import { packages } from "@/data/sample-data";
 
 export const metadata = {
-  title: "Tour Packages | Travel with Chamru",
+  title: "Tour Packages",
+  description:
+    "5, 7, 10, and 14-day Sri Lanka tour packages, or a fully customized trip built around you. Fair pricing, private tours, no hidden charges.",
 };
 
 export default function PackagesPage() {

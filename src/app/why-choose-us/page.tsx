@@ -5,7 +5,9 @@ import PhotoPlaceholder from "@/components/PhotoPlaceholder";
 import { whyChooseUs } from "@/data/sample-data";
 
 export const metadata = {
-  title: "Why Choose Travel with Chamru | Travel with Chamru",
+  title: "Why Choose Travel with Chamru",
+  description:
+    "Private tours only, flexible itineraries, fair pricing, local knowledge, and no hidden charges — here's why travelers choose Chamru for Sri Lanka.",
 };
 
 export default function WhyChooseUsPage() {

@@ -5,7 +5,9 @@ import DestinationImage from "@/components/DestinationImage";
 import { vehicle } from "@/data/sample-data";
 
 export const metadata = {
-  title: "Vehicle | Travel with Chamru",
+  title: "Vehicle",
+  description:
+    "Travel in comfort in a Honda Vezel — air conditioning, comfortable seating, and complimentary Wi-Fi. Larger vehicles available for bigger groups.",
 };
 
 export default function VehiclePage() {

@@ -10,7 +10,9 @@ import {
 import PageHeader from "@/components/PageHeader";
 
 export const metadata = {
-  title: "Travel Information | Travel with Chamru",
+  title: "Travel Information",
+  description:
+    "Visa details, currency exchange, local SIM cards, weather by season, packing tips, cultural etiquette, and emergency contacts for visiting Sri Lanka.",
 };
 
 const SECTIONS = [

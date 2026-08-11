@@ -4,7 +4,8 @@ import RefreshButton from "@/components/RefreshButton";
 import { weatherLocations } from "@/data/sample-data";
 
 export const metadata = {
-  title: "Weather | Travel with Chamru",
+  title: "Weather",
+  description: "Current weather conditions across Sri Lanka's popular destinations — Colombo, Kandy, Ella, Yala, and Galle.",
 };
 
 // Re-fetch at most every 30 minutes.

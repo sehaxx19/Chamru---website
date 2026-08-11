@@ -5,7 +5,9 @@ import DestinationImage from "@/components/DestinationImage";
 import { destinations } from "@/data/sample-data";
 
 export const metadata = {
-  title: "Destinations | Travel with Chamru",
+  title: "Destinations",
+  description:
+    "Explore Sri Lanka's top destinations — Sigiriya Rock Fortress, Ella, Yala National Park, Galle Fort, Nine Arches Bridge, Temple of the Tooth, and Mirissa.",
 };
 
 export default function DestinationsPage() {

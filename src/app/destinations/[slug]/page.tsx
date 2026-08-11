@@ -9,6 +9,24 @@ export function generateStaticParams() {
   return destinations.map((d) => ({ slug: d.slug }));
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const destination = destinations.find((d) => d.slug === slug);
+  if (!destination) return {};
+
+  return {
+    title: destination.name,
+    description: `${destination.shortDesc} Best time to visit: ${destination.bestTime}. Plan your visit to ${destination.name} with Travel with Chamru.`,
+    openGraph: destination.heroImageUrl.startsWith("http") || destination.heroImageUrl.startsWith("/")
+      ? { images: [{ url: destination.heroImageUrl }] }
+      : undefined,
+  };
+}
+
 export default async function DestinationDetailPage({
   params,
 }: {

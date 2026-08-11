@@ -4,7 +4,9 @@ import PageHeader from "@/components/PageHeader";
 import { reviews } from "@/data/sample-data";
 
 export const metadata = {
-  title: "Guest Reviews | Travel with Chamru",
+  title: "Guest Reviews",
+  description:
+    "Real feedback from travelers who've explored Sri Lanka with Travel with Chamru — safe, comfortable, personalized private tours.",
 };
 
 export default function ReviewsPage() {

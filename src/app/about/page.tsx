@@ -2,6 +2,12 @@ import PhotoPlaceholder from "@/components/PhotoPlaceholder";
 import PageHeader from "@/components/PageHeader";
 import { ShieldCheck, Languages, Star, Users } from "lucide-react";
 
+export const metadata = {
+  title: "About Me",
+  description:
+    "Meet Chamru, your trusted local driver and guide in Sri Lanka — safe, friendly, and knowledgeable, with years of experience creating personalized tours.",
+};
+
 export default function AboutPage() {
   return (
     <>
