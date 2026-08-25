@@ -2,9 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check, MapPin } from "lucide-react";
 import DestinationImage from "@/components/DestinationImage";
-import { packages, destinations } from "@/data/sample-data";
+import { prisma } from "@/lib/prisma";
 
-export function generateStaticParams() {
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  const packages = await prisma.package.findMany({ select: { slug: true } });
   return packages.map((p) => ({ slug: p.slug }));
 }
 
@@ -14,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const pkg = packages.find((p) => p.slug === slug);
+  const pkg = await prisma.package.findUnique({ where: { slug } });
   if (!pkg) return {};
 
   const description =
@@ -25,8 +28,8 @@ export async function generateMetadata({
   return {
     title: pkg.name,
     description,
-    openGraph: pkg.imageUrl.startsWith("http") || pkg.imageUrl.startsWith("/")
-      ? { images: [{ url: pkg.imageUrl }] }
+    openGraph: pkg.heroImageUrl.startsWith("http") || pkg.heroImageUrl.startsWith("/")
+      ? { images: [{ url: pkg.heroImageUrl }] }
       : undefined,
   };
 }
@@ -52,21 +55,26 @@ export default async function PackageDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const pkg = packages.find((p) => p.slug === slug);
+  const pkg = await prisma.package.findUnique({ where: { slug } });
   if (!pkg) notFound();
+
+  const destinations = await prisma.destination.findMany();
 
   const isCustom = pkg.days === 0;
   const dayCount = isCustom ? 7 : pkg.days;
-  const itineraryDays = Array.from({ length: dayCount }).map((_, i) => {
-    const d = destinations[i % destinations.length];
-    return { day: i + 1, destination: d };
-  });
+  const itineraryDays =
+    destinations.length > 0
+      ? Array.from({ length: dayCount }).map((_, i) => {
+          const d = destinations[i % destinations.length];
+          return { day: i + 1, destination: d };
+        })
+      : [];
 
   return (
     <>
       <section className="relative overflow-hidden bg-forest-950">
         <DestinationImage
-          src={pkg.imageUrl}
+          src={pkg.heroImageUrl}
           alt={pkg.name}
           className="absolute inset-0 h-full w-full opacity-60"
           priority

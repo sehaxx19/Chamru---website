@@ -1,7 +1,9 @@
-// Placeholder content mirroring the Prisma schema shape.
-// Once the database is connected, replace these with `prisma.destination.findMany()` etc.
-// (see src/lib/prisma.ts). Keeping the shape identical makes that swap a one-line change
-// per page.
+// destinations/packages/vehicle/reviews/gallery below are no longer read directly by any
+// page — those now query the database (see src/lib/prisma.ts). This file's remaining job
+// for that content is as the source prisma/seed.ts seeds the DB from (`npm run db:seed`).
+// The other exports further down (interests, faqs, travelInfo, weatherLocations,
+// whyChooseUs, galleryCategories) are genuinely static site config, not DB content, and
+// are still imported directly by pages.
 
 export const destinations = [
   {

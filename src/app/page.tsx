@@ -19,15 +19,19 @@ import {
 } from "lucide-react";
 import DestinationImage from "@/components/DestinationImage";
 import ItineraryBuilderBar from "@/components/ItineraryBuilderBar";
-import {
-  destinations,
-  packages,
-  vehicle,
-  reviews,
-  whyChooseUs,
-} from "@/data/sample-data";
+import { whyChooseUs } from "@/data/sample-data";
+import { prisma } from "@/lib/prisma";
 
-export default function HomePage() {
+export const revalidate = 3600;
+
+export default async function HomePage() {
+  const [destinations, packages, vehicle, reviews] = await Promise.all([
+    prisma.destination.findMany({ orderBy: { createdAt: "asc" } }),
+    prisma.package.findMany({ orderBy: { createdAt: "asc" } }),
+    prisma.vehicle.findFirst(),
+    prisma.review.findMany({ orderBy: { createdAt: "desc" } }),
+  ]);
+
   return (
     <>
       {/* ---------------- Hero ---------------- */}
@@ -206,11 +210,11 @@ export default function HomePage() {
               Travel in Comfort
             </p>
             <h3 className="font-display text-xl font-semibold text-forest-900">
-              {vehicle.name}
+              {vehicle?.name ?? "Our Vehicle"}
             </h3>
             <DestinationImage
               src="/images/vehicle-user-1.jpg"
-              alt={`${vehicle.name} — exterior`}
+              alt={`${vehicle?.name ?? "Vehicle"} — exterior`}
               gradientIndex={2}
               className="mt-3 h-48 w-full rounded-lg"
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -241,7 +245,7 @@ export default function HomePage() {
             </div>
             <div className="mt-4 space-y-4">
               {reviews.map((r) => (
-                <div key={r.guestName} className="rounded-lg bg-sand-50 p-4">
+                <div key={r.id} className="rounded-lg bg-sand-50 p-4">
                   <div className="flex gap-0.5 text-gold-500">
                     {Array.from({ length: r.rating }).map((_, i) => (
                       <Star key={i} size={13} fill="currentColor" />

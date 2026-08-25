@@ -2,7 +2,7 @@ import Link from "next/link";
 import { CalendarDays, ArrowRight } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import DestinationImage from "@/components/DestinationImage";
-import { packages } from "@/data/sample-data";
+import { prisma } from "@/lib/prisma";
 
 export const metadata = {
   title: "Tour Packages",
@@ -10,7 +10,11 @@ export const metadata = {
     "5, 7, 10, and 14-day Sri Lanka tour packages, or a fully customized trip built around you. Fair pricing, private tours, no hidden charges.",
 };
 
-export default function PackagesPage() {
+export const revalidate = 3600;
+
+export default async function PackagesPage() {
+  const packages = await prisma.package.findMany({ orderBy: { createdAt: "asc" } });
+
   return (
     <>
       <PageHeader
@@ -27,7 +31,7 @@ export default function PackagesPage() {
               href={`/packages/${p.slug}`}
               className="group overflow-hidden rounded-xl border border-forest-900/10 bg-white shadow-sm transition hover:shadow-md"
             >
-              <DestinationImage src={p.imageUrl} alt={p.name} gradientIndex={i} className="h-40 w-full" />
+              <DestinationImage src={p.heroImageUrl} alt={p.name} gradientIndex={i} className="h-40 w-full" />
               <div className="p-5">
                 <h3 className="font-display text-base font-semibold text-forest-900">
                   {p.name}

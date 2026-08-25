@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Check, Users } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import DestinationImage from "@/components/DestinationImage";
-import { vehicle } from "@/data/sample-data";
+import { prisma } from "@/lib/prisma";
 
 export const metadata = {
   title: "Vehicle",
@@ -10,13 +10,18 @@ export const metadata = {
     "Travel in comfort in a Honda Vezel — air conditioning, comfortable seating, and complimentary Wi-Fi. Larger vehicles available for bigger groups.",
 };
 
-export default function VehiclePage() {
+export const revalidate = 3600;
+
+export default async function VehiclePage() {
+  const vehicle = await prisma.vehicle.findFirst();
+  if (!vehicle) return null;
+
   return (
     <>
       <PageHeader
         eyebrow="Travel in comfort"
         title={vehicle.name}
-        description={`A spacious, well-maintained ${vehicle.type.toLowerCase()} — comfortable for long drives across the island.`}
+        description="A spacious, well-maintained SUV — comfortable for long drives across the island."
       />
 
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">

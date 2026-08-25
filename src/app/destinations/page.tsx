@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Clock, MapPin } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import DestinationImage from "@/components/DestinationImage";
-import { destinations } from "@/data/sample-data";
+import { prisma } from "@/lib/prisma";
 
 export const metadata = {
   title: "Destinations",
@@ -10,7 +10,11 @@ export const metadata = {
     "Explore Sri Lanka's top destinations — Sigiriya Rock Fortress, Ella, Yala National Park, Galle Fort, Nine Arches Bridge, Temple of the Tooth, and Mirissa.",
 };
 
-export default function DestinationsPage() {
+export const revalidate = 3600;
+
+export default async function DestinationsPage() {
+  const destinations = await prisma.destination.findMany({ orderBy: { createdAt: "asc" } });
+
   return (
     <>
       <PageHeader

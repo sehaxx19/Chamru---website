@@ -1,15 +1,11 @@
-"use client";
-
-import { useState } from "react";
 import PageHeader from "@/components/PageHeader";
-import DestinationImage from "@/components/DestinationImage";
-import { gallery, galleryCategories } from "@/data/sample-data";
+import GalleryGrid from "@/components/GalleryGrid";
+import { prisma } from "@/lib/prisma";
 
-export default function GalleryPage() {
-  const [active, setActive] = useState<(typeof galleryCategories)[number]>("All Photos");
+export const revalidate = 3600;
 
-  const filtered =
-    active === "All Photos" ? gallery : gallery.filter((g) => g.category === active);
+export default async function GalleryPage() {
+  const items = await prisma.galleryItem.findMany({ orderBy: { createdAt: "asc" } });
 
   return (
     <>
@@ -20,40 +16,7 @@ export default function GalleryPage() {
       />
 
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap gap-2">
-          {galleryCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActive(cat)}
-              className={`rounded-full border px-4 py-1.5 text-sm font-medium transition ${
-                active === cat
-                  ? "border-emerald-500 bg-emerald-500 text-forest-950"
-                  : "border-forest-900/15 text-ink-900 hover:bg-sand-100"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {filtered.map((item, i) => (
-            <DestinationImage
-              key={item.label}
-              src={"imageUrl" in item ? item.imageUrl : ""}
-              alt={item.label}
-              gradientIndex={i}
-              className="h-40 w-full rounded-xl sm:h-48"
-              sizes="(min-width: 1024px) 25vw, 50vw"
-            />
-          ))}
-        </div>
-
-        {filtered.length === 0 && (
-          <p className="mt-10 text-center text-sm text-ink-600">
-            No photos in this category yet.
-          </p>
-        )}
+        <GalleryGrid items={items} />
       </section>
     </>
   );

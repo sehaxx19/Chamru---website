@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Star } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
-import { reviews } from "@/data/sample-data";
+import { prisma } from "@/lib/prisma";
 
 export const metadata = {
   title: "Guest Reviews",
@@ -9,8 +9,13 @@ export const metadata = {
     "Real feedback from travelers who've explored Sri Lanka with Travel with Chamru — safe, comfortable, personalized private tours.",
 };
 
-export default function ReviewsPage() {
-  const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+export const revalidate = 3600;
+
+export default async function ReviewsPage() {
+  const reviews = await prisma.review.findMany({ orderBy: { createdAt: "desc" } });
+  const avg = reviews.length
+    ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+    : 0;
 
   return (
     <>
@@ -34,7 +39,7 @@ export default function ReviewsPage() {
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {reviews.map((r) => (
-            <div key={r.guestName} className="rounded-xl border border-forest-900/10 bg-white p-5 shadow-sm">
+            <div key={r.id} className="rounded-xl border border-forest-900/10 bg-white p-5 shadow-sm">
               <div className="flex gap-0.5 text-gold-500">
                 {Array.from({ length: r.rating }).map((_, i) => (
                   <Star key={i} size={14} fill="currentColor" />

@@ -3,9 +3,12 @@ import { notFound } from "next/navigation";
 import { Clock, MapPin, Wallet, CalendarDays, ArrowLeft } from "lucide-react";
 import DestinationImage from "@/components/DestinationImage";
 import MapEmbed from "@/components/MapEmbed";
-import { destinations } from "@/data/sample-data";
+import { prisma } from "@/lib/prisma";
 
-export function generateStaticParams() {
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  const destinations = await prisma.destination.findMany({ select: { slug: true } });
   return destinations.map((d) => ({ slug: d.slug }));
 }
 
@@ -15,7 +18,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const destination = destinations.find((d) => d.slug === slug);
+  const destination = await prisma.destination.findUnique({ where: { slug } });
   if (!destination) return {};
 
   return {
@@ -33,10 +36,13 @@ export default async function DestinationDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const destination = destinations.find((d) => d.slug === slug);
+  const destination = await prisma.destination.findUnique({ where: { slug } });
   if (!destination) notFound();
 
-  const others = destinations.filter((d) => d.slug !== slug).slice(0, 3);
+  const others = await prisma.destination.findMany({
+    where: { slug: { not: slug } },
+    take: 3,
+  });
 
   return (
     <>
@@ -84,9 +90,7 @@ export default async function DestinationDetailPage({
             </h2>
             <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
               {[0, 1, 2].map((i) => {
-                const extraPhotos =
-                  "galleryImageUrls" in destination ? destination.galleryImageUrls : [];
-                const src = extraPhotos[i] ?? "";
+                const src = destination.galleryUrls[i] ?? "";
                 return (
                   <DestinationImage
                     key={i}

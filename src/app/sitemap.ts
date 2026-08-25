@@ -1,9 +1,14 @@
 import { MetadataRoute } from "next";
-import { destinations, packages } from "@/data/sample-data";
+import { prisma } from "@/lib/prisma";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://travelwithchamru.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [destinations, packages] = await Promise.all([
+    prisma.destination.findMany({ select: { slug: true } }),
+    prisma.package.findMany({ select: { slug: true } }),
+  ]);
+
   const staticRoutes = [
     "",
     "/about",
