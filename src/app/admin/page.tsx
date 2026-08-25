@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import PageHeader from "@/components/PageHeader";
 import SignOutButton from "@/components/SignOutButton";
+import InquiryActions from "@/components/InquiryActions";
 
 export const metadata = {
   title: "Admin",
@@ -94,13 +95,20 @@ export default async function AdminPage() {
                       {inquiry.createdAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </p>
                   </div>
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                      STATUS_STYLES[inquiry.status] ?? "bg-sand-100 text-ink-900"
-                    }`}
-                  >
-                    {inquiry.status}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {inquiry.quotedPriceLkr && (
+                      <span className="text-xs font-semibold text-emerald-700">
+                        LKR {inquiry.quotedPriceLkr.toLocaleString()}
+                      </span>
+                    )}
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                        STATUS_STYLES[inquiry.status] ?? "bg-sand-100 text-ink-900"
+                      }`}
+                    >
+                      {inquiry.status}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="mt-4 grid gap-2 text-sm text-ink-900 sm:grid-cols-2">
@@ -179,6 +187,12 @@ export default async function AdminPage() {
                     })()}
                   </div>
                 )}
+
+                <InquiryActions
+                  id={inquiry.id}
+                  currentStatus={inquiry.status}
+                  initialPriceLkr={inquiry.quotedPriceLkr}
+                />
               </div>
             ))}
           </div>
