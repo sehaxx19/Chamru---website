@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { z } from "zod";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -47,16 +47,20 @@ export async function PATCH(
   });
 
   if (status === "QUOTED" && quotedPriceLkr) {
-    try {
-      await sendQuoteEmail({
-        toEmail: inquiry.email,
-        name: inquiry.name,
-        priceLkr: quotedPriceLkr,
-        inquiryId: inquiry.id,
-      });
-    } catch (err) {
-      console.error("Failed to send quote email:", err);
-    }
+    // Send after responding — a slow SMTP round-trip shouldn't hold up the
+    // admin's status update.
+    after(async () => {
+      try {
+        await sendQuoteEmail({
+          toEmail: inquiry.email,
+          name: inquiry.name,
+          priceLkr: quotedPriceLkr,
+          inquiryId: inquiry.id,
+        });
+      } catch (err) {
+        console.error("Failed to send quote email:", err);
+      }
+    });
   }
 
   return NextResponse.json(inquiry);
