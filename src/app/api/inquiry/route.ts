@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { sendInquiryConfirmation, sendAdminNewInquiryAlert } from "@/lib/mailer";
@@ -43,25 +43,28 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  // Fire off both emails; don't let a mail failure block the response to the user.
-  try {
-    await Promise.all([
-      sendInquiryConfirmation({
-        toEmail: inquiry.email,
-        name: inquiry.name,
-        inquiryId: inquiry.id,
-      }),
-      sendAdminNewInquiryAlert({
-        inquiryId: inquiry.id,
-        name: inquiry.name,
-        email: inquiry.email,
-        phone: inquiry.phone,
-        message: inquiry.message,
-      }),
-    ]);
-  } catch (err) {
-    console.error("Failed to send inquiry emails:", err);
-  }
+  // Send both emails after the response goes out, so a slow/unreachable SMTP
+  // server never delays the user's response or a mail failure the request itself.
+  after(async () => {
+    try {
+      await Promise.all([
+        sendInquiryConfirmation({
+          toEmail: inquiry.email,
+          name: inquiry.name,
+          inquiryId: inquiry.id,
+        }),
+        sendAdminNewInquiryAlert({
+          inquiryId: inquiry.id,
+          name: inquiry.name,
+          email: inquiry.email,
+          phone: inquiry.phone,
+          message: inquiry.message,
+        }),
+      ]);
+    } catch (err) {
+      console.error("Failed to send inquiry emails:", err);
+    }
+  });
 
   return NextResponse.json({ id: inquiry.id, status: inquiry.status }, { status: 201 });
 }
