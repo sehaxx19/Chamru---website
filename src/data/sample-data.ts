@@ -260,7 +260,7 @@ export const vehicle = {
     "Phone Charging Ports",
     "Complimentary Bottled Water",
   ],
-  heroImageUrl: "/images/vehicle/honda-vezel.jpg",
+  heroImageUrl: "/images/vehicle-user-1.jpg",
 };
 
 export const reviews = [
