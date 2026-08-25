@@ -41,6 +41,7 @@ export async function POST(req: NextRequest) {
       attachmentUrl: data.attachmentUrl,
       userId: session?.user ? (session.user as { id?: string }).id : undefined,
     },
+    include: { itinerary: true },
   });
 
   // Send both emails after the response goes out, so a slow/unreachable SMTP
@@ -52,6 +53,13 @@ export async function POST(req: NextRequest) {
           toEmail: inquiry.email,
           name: inquiry.name,
           inquiryId: inquiry.id,
+          itinerary: inquiry.itinerary
+            ? (inquiry.itinerary.itineraryJson as {
+                title?: string;
+                estimatedCostLkr?: number;
+                days?: { day: number; location: string; activities?: string[]; overnightStay?: string }[];
+              })
+            : undefined,
         }),
         sendAdminNewInquiryAlert({
           inquiryId: inquiry.id,

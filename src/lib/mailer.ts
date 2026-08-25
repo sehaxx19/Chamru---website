@@ -99,12 +99,75 @@ function referenceChip(inquiryId: string) {
   return `<div style="display:inline-block; background-color:${COLOR.sandMid}; border:1px solid ${COLOR.border}; border-radius:8px; padding:8px 14px; font-family:monospace; font-size:13px; color:${COLOR.ink};">${inquiryId}</div>`;
 }
 
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+type ItineraryEmailDay = {
+  day: number;
+  location: string;
+  activities?: string[];
+  overnightStay?: string;
+};
+
+type ItineraryEmailPayload = {
+  title?: string;
+  estimatedCostLkr?: number;
+  days?: ItineraryEmailDay[];
+};
+
+// AI-generated itinerary text is untrusted input rendered into HTML email —
+// escape every field before interpolating it.
+function renderItineraryBlock(itinerary: ItineraryEmailPayload) {
+  const dayRows = (itinerary.days ?? [])
+    .map((d) => {
+      const activities = d.activities?.length
+        ? ` — ${d.activities.map(escapeHtml).join(", ")}`
+        : "";
+      const overnight = d.overnightStay
+        ? `<br/><span style="color:${COLOR.inkLight};">Overnight: ${escapeHtml(d.overnightStay)}</span>`
+        : "";
+      return `
+    <tr>
+      <td style="padding:8px 0; border-bottom:1px solid ${COLOR.border}; font-size:13px; color:${COLOR.inkLight}; width:64px; vertical-align:top; font-weight:600;">Day ${d.day}</td>
+      <td style="padding:8px 0; border-bottom:1px solid ${COLOR.border}; font-size:13px; color:${COLOR.ink};">
+        <strong>${escapeHtml(d.location)}</strong>${activities}${overnight}
+      </td>
+    </tr>`;
+    })
+    .join("");
+
+  return `
+    <div style="margin-top:28px; padding-top:24px; border-top:1px solid ${COLOR.border};">
+      <p style="margin:0 0 12px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:${COLOR.inkLight};">Your itinerary</p>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
+        <tr>
+          <td style="font-size:16px; font-weight:700; color:${COLOR.forest};">${escapeHtml(itinerary.title ?? "Your itinerary")}</td>
+          ${
+            itinerary.estimatedCostLkr
+              ? `<td align="right" style="font-size:15px; font-weight:700; color:${COLOR.emerald};">LKR ${itinerary.estimatedCostLkr.toLocaleString()}</td>`
+              : ""
+          }
+        </tr>
+      </table>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        ${dayRows}
+      </table>
+    </div>
+  `;
+}
+
 export async function sendInquiryConfirmation(params: {
   toEmail: string;
   name: string;
   inquiryId: string;
+  itinerary?: ItineraryEmailPayload;
 }) {
-  const { toEmail, name, inquiryId } = params;
+  const { toEmail, name, inquiryId, itinerary } = params;
 
   const bodyHtml = `
     <h1 style="margin:0 0 16px; font-size:22px; color:${COLOR.forest};">Thanks, ${name}!</h1>
@@ -114,6 +177,7 @@ export async function sendInquiryConfirmation(params: {
     </p>
     <p style="margin:0 0 8px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:${COLOR.inkLight};">Reference</p>
     ${referenceChip(inquiryId)}
+    ${itinerary ? renderItineraryBlock(itinerary) : ""}
     <p style="margin:28px 0 0; font-size:15px; line-height:1.6; color:${COLOR.ink};">
       Have a question in the meantime? Reach out any time on WhatsApp.
     </p>
