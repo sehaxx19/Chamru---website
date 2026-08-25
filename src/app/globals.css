@@ -90,3 +90,24 @@ body {
   border-color: var(--color-emerald-500);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-emerald-500) 30%, transparent);
 }
+
+/* Isolates a single element for window.print() — hide everything, then
+   unhide the printable target and pull it out of the (now-collapsed) flow
+   so nothing else on the page leaves blank space above/around it. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  [data-print-target],
+  [data-print-target] * {
+    visibility: visible;
+  }
+
+  [data-print-target] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
