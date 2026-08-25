@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef, Suspense, FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
-import { ArrowRight, Sparkles, Download } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Sparkles, Download, Send } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import MapEmbed from "@/components/MapEmbed";
 import { interests as INTEREST_OPTIONS } from "@/data/sample-data";
@@ -42,6 +43,7 @@ function ItinerariesPageInner() {
   );
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [result, setResult] = useState<ItineraryResult["itineraryJson"] | null>(null);
+  const [itineraryId, setItineraryId] = useState<string | null>(null);
 
   // Unique day locations in order, for the map preview's route query.
   const routeLocations = result?.days
@@ -58,6 +60,7 @@ function ItinerariesPageInner() {
     e.preventDefault();
     setStatus("loading");
     setResult(null);
+    setItineraryId(null);
     const form = new FormData(e.currentTarget);
     const days = Number(form.get("days")) || undefined;
     const travelers = Number(form.get("travelers")) || undefined;
@@ -82,6 +85,7 @@ function ItinerariesPageInner() {
       if (!res.ok) throw new Error("failed");
       const data = await res.json();
       setResult(data.itineraryJson);
+      setItineraryId(data.id ?? null);
       setStatus("done");
     } catch {
       setStatus("error");
@@ -248,13 +252,23 @@ function ItinerariesPageInner() {
               ))}
             </ol>
 
-            <button
-              type="button"
-              onClick={() => window.print()}
-              className="mt-6 flex items-center gap-2 rounded-full border border-forest-900/15 px-4 py-2 text-sm font-medium text-forest-900 hover:bg-sand-100 print:hidden"
-            >
-              <Download size={14} /> Download Itinerary (PDF)
-            </button>
+            <div className="mt-6 flex flex-wrap gap-3 print:hidden">
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="flex items-center gap-2 rounded-full border border-forest-900/15 px-4 py-2 text-sm font-medium text-forest-900 hover:bg-sand-100"
+              >
+                <Download size={14} /> Download Itinerary (PDF)
+              </button>
+              {itineraryId && (
+                <Link
+                  href={`/instant-inquiry?itineraryId=${itineraryId}`}
+                  className="flex items-center gap-2 rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-forest-950 hover:bg-emerald-400"
+                >
+                  <Send size={14} /> Send This Itinerary for Review
+                </Link>
+              )}
+            </div>
           </div>
         )}
       </section>

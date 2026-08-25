@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { Mail, Phone, Calendar, Users as UsersIcon } from "lucide-react";
+import { Mail, Phone, Calendar, Users as UsersIcon, MapPinned } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import PageHeader from "@/components/PageHeader";
@@ -16,6 +16,17 @@ const STATUS_STYLES: Record<string, string> = {
   QUOTED: "bg-emerald-500/15 text-emerald-700",
   CONFIRMED: "bg-emerald-500/25 text-emerald-800",
   DECLINED: "bg-red-500/10 text-red-700",
+};
+
+type AttachedItineraryJson = {
+  title?: string;
+  estimatedCostLkr?: number;
+  days?: {
+    day: number;
+    location: string;
+    activities?: string[];
+    overnightStay?: string;
+  }[];
 };
 
 export default async function AdminPage() {
@@ -46,6 +57,7 @@ export default async function AdminPage() {
   const inquiries = await prisma.inquiry.findMany({
     orderBy: { createdAt: "desc" },
     take: 100,
+    include: { itinerary: true },
   });
 
   return (
@@ -124,6 +136,48 @@ export default async function AdminPage() {
                   <p className="mt-3 rounded-lg bg-sand-50 p-3 text-sm text-ink-600">
                     {inquiry.message}
                   </p>
+                )}
+
+                {inquiry.itinerary && (
+                  <div className="mt-3 rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className="flex items-center gap-1.5 text-xs font-semibold text-emerald-800">
+                        <MapPinned size={13} /> Attached itinerary
+                      </p>
+                      {(() => {
+                        const json = inquiry.itinerary.itineraryJson as AttachedItineraryJson;
+                        return json.estimatedCostLkr ? (
+                          <span className="text-xs font-semibold text-emerald-700">
+                            LKR {json.estimatedCostLkr.toLocaleString()}
+                          </span>
+                        ) : null;
+                      })()}
+                    </div>
+                    {(() => {
+                      const json = inquiry.itinerary.itineraryJson as AttachedItineraryJson;
+                      return (
+                        <>
+                          <p className="mt-1 text-sm font-medium text-forest-900">
+                            {json.title ?? inquiry.itinerary.title}
+                          </p>
+                          {json.days && json.days.length > 0 && (
+                            <ol className="mt-2 space-y-1.5 text-xs text-ink-600">
+                              {json.days.map((d) => (
+                                <li key={d.day}>
+                                  <span className="font-semibold text-ink-900">
+                                    Day {d.day}: {d.location}
+                                  </span>
+                                  {d.activities && d.activities.length > 0 && (
+                                    <span> — {d.activities.join(", ")}</span>
+                                  )}
+                                </li>
+                              ))}
+                            </ol>
+                          )}
+                        </>
+                      );
+                    })()}
+                  </div>
                 )}
               </div>
             ))}

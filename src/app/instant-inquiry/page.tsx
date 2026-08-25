@@ -1,10 +1,21 @@
 "use client";
 
-import { useState, FormEvent } from "react";
-import { MessageCircle, Send } from "lucide-react";
+import { Suspense, useState, FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
+import { MessageCircle, Send, MapPinned } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 
 export default function InstantInquiryPage() {
+  return (
+    <Suspense fallback={null}>
+      <InstantInquiryPageInner />
+    </Suspense>
+  );
+}
+
+function InstantInquiryPageInner() {
+  const searchParams = useSearchParams();
+  const itineraryId = searchParams.get("itineraryId");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -24,6 +35,7 @@ export default function InstantInquiryPage() {
           travelDate: form.get("travelDate") || undefined,
           travelers: form.get("travelers") ? Number(form.get("travelers")) : undefined,
           message: form.get("message") || undefined,
+          itineraryId: itineraryId || undefined,
         }),
       });
       if (!res.ok) throw new Error("failed");
@@ -51,6 +63,13 @@ export default function InstantInquiryPage() {
         >
           <MessageCircle size={16} /> Message on WhatsApp instead
         </a>
+
+        {itineraryId && status !== "sent" && (
+          <div className="mb-6 flex items-center gap-2.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-800">
+            <MapPinned size={16} className="shrink-0" />
+            Your generated itinerary is attached to this inquiry — Chamru will review it directly.
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-forest-900/10 bg-white p-6 shadow-sm">
           <div className="grid gap-4 sm:grid-cols-2">

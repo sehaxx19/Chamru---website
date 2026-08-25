@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { Sparkles, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Sparkles, ArrowRight, Send } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 
 type ItineraryDay = {
@@ -25,12 +26,14 @@ export default function AiTripPlannerPage() {
     days: ItineraryDay[];
     estimatedCostLkr: number;
   } | null>(null);
+  const [itineraryId, setItineraryId] = useState<string | null>(null);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!prompt.trim()) return;
     setStatus("loading");
     setResult(null);
+    setItineraryId(null);
 
     try {
       const res = await fetch("/api/itinerary/ai", {
@@ -41,6 +44,7 @@ export default function AiTripPlannerPage() {
       if (!res.ok) throw new Error("failed");
       const data = await res.json();
       setResult(data.itineraryJson);
+      setItineraryId(data.id ?? null);
       setStatus("done");
     } catch {
       setStatus("error");
@@ -121,6 +125,14 @@ export default function AiTripPlannerPage() {
                 </li>
               ))}
             </ol>
+            {itineraryId && (
+              <Link
+                href={`/instant-inquiry?itineraryId=${itineraryId}`}
+                className="mt-6 flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-forest-950 hover:bg-emerald-400"
+              >
+                <Send size={14} /> Send This Itinerary for Review
+              </Link>
+            )}
           </div>
         )}
       </section>
