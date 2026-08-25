@@ -10,8 +10,9 @@ export default function ContactPage() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const formEl = e.currentTarget;
     setStatus("sending");
-    const form = new FormData(e.currentTarget);
+    const form = new FormData(formEl);
 
     try {
       const res = await fetch("/api/inquiry", {
@@ -26,7 +27,7 @@ export default function ContactPage() {
       });
       if (!res.ok) throw new Error("failed");
       setStatus("sent");
-      e.currentTarget.reset();
+      formEl.reset();
     } catch {
       setStatus("error");
     }
