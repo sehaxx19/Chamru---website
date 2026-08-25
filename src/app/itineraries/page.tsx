@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, Suspense, FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { ArrowRight, Sparkles, Download } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
+import MapEmbed from "@/components/MapEmbed";
 import { interests as INTEREST_OPTIONS } from "@/data/sample-data";
 
 type ItineraryDay = {
@@ -41,6 +42,11 @@ function ItinerariesPageInner() {
   );
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [result, setResult] = useState<ItineraryResult["itineraryJson"] | null>(null);
+
+  // Unique day locations in order, for the map preview's route query.
+  const routeLocations = result?.days
+    ? [...new Set(result.days.map((d) => d.location).filter(Boolean))]
+    : [];
 
   function toggleInterest(i: string) {
     setSelectedInterests((prev) =>
@@ -195,10 +201,20 @@ function ItinerariesPageInner() {
             <p className="flex items-center gap-1.5 text-xs font-semibold text-forest-900">
               <Sparkles size={13} className="text-emerald-600" /> Map preview
             </p>
-            <div className="mt-3 h-64 rounded-xl bg-white" aria-hidden="true" />
-            <p className="mt-3 text-xs text-ink-600">
-              Your route will plot here once your itinerary is generated.
-            </p>
+            {routeLocations.length > 0 ? (
+              <MapEmbed
+                query={`${routeLocations.join(", ")}, Sri Lanka`}
+                zoom={8}
+                className="mt-3 h-64 rounded-xl"
+              />
+            ) : (
+              <>
+                <div className="mt-3 h-64 rounded-xl bg-white" aria-hidden="true" />
+                <p className="mt-3 text-xs text-ink-600">
+                  Your route will plot here once your itinerary is generated.
+                </p>
+              </>
+            )}
           </aside>
         </div>
 
