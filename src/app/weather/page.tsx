@@ -1,6 +1,7 @@
 import { CloudSun } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import RefreshButton from "@/components/RefreshButton";
+import WeatherSearch from "@/components/WeatherSearch";
 import { weatherLocations } from "@/data/sample-data";
 
 export const metadata = {
@@ -84,6 +85,8 @@ export default async function WeatherPage() {
             </div>
           ))}
         </div>
+
+        <WeatherSearch />
       </section>
     </>
   );
