@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { prisma } from "@/lib/prisma";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -67,7 +69,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const reviews = await prisma.review.findMany({ select: { rating: true } });
+  const reviewCount = reviews.length;
+  const avgRating = reviewCount
+    ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount
+    : undefined;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
@@ -89,6 +97,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     },
     priceRange: "$$",
     sameAs: ["https://www.facebook.com/share/1DdUfhcM65/?mibextid=wwXIfr"],
+    ...(avgRating
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: avgRating.toFixed(1),
+            reviewCount,
+          },
+        }
+      : {}),
   };
 
   return (
@@ -107,6 +124,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main className="flex-1">{children}</main>
         <Footer />
         <WhatsAppButton />
+        <Analytics />
       </body>
     </html>
   );

@@ -57,7 +57,13 @@ export default function Footer() {
             <a href="#" aria-label="Instagram" className="text-sand-100/70 hover:text-emerald-400">
               <InstagramIcon size={18} />
             </a>
-            <a href="#" aria-label="WhatsApp" className="text-sand-100/70 hover:text-emerald-400">
+            <a
+              href="https://wa.me/94707733647"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+              className="text-sand-100/70 hover:text-emerald-400"
+            >
               <MessageCircle size={18} />
             </a>
           </div>
