@@ -67,7 +67,7 @@ export default function Footer() {
           <h3 className="font-display text-sm font-semibold uppercase tracking-wide text-sand-50">
             Quick Links
           </h3>
-          <ul className="mt-4 space-y-2 text-sm text-sand-100/70">
+          <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-sand-100/70">
             <li><Link href="/" className="hover:text-emerald-400">Home</Link></li>
             <li><Link href="/packages" className="hover:text-emerald-400">Packages</Link></li>
             <li><Link href="/about" className="hover:text-emerald-400">About Me</Link></li>

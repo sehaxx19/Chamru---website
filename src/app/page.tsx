@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import DestinationImage from "@/components/DestinationImage";
 import ItineraryBuilderBar from "@/components/ItineraryBuilderBar";
+import Reveal from "@/components/Reveal";
 import { whyChooseUs } from "@/data/sample-data";
 import { prisma } from "@/lib/prisma";
 
@@ -122,6 +123,7 @@ export default async function HomePage() {
 
       {/* ---------------- Popular Destinations + Packages ---------------- */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <Reveal>
         <div className="grid gap-10 lg:grid-cols-[1fr_280px]">
           <div>
             <div className="flex items-end justify-between">
@@ -200,10 +202,12 @@ export default async function HomePage() {
             </ul>
           </aside>
         </div>
+        </Reveal>
       </section>
 
       {/* ---------------- Vehicle + Reviews ---------------- */}
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+        <Reveal>
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-xl border border-forest-900/10 bg-white p-5 shadow-sm">
             <p className="text-xs font-medium uppercase tracking-wide text-emerald-600">
@@ -266,10 +270,12 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
+        </Reveal>
       </section>
 
       {/* ---------------- Feature strip ---------------- */}
       <section className="border-y border-forest-900/10 bg-white">
+        <Reveal>
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 md:grid-cols-3 lg:grid-cols-6 lg:px-8">
           {[
             { icon: Users, label: "Private Tours Only" },
@@ -287,10 +293,12 @@ export default async function HomePage() {
             </div>
           ))}
         </div>
+        </Reveal>
       </section>
 
       {/* ---------------- Weather / Travel Info / Why Choose / CTA ---------------- */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <Reveal>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl border border-forest-900/10 bg-white p-5 shadow-sm">
             <h4 className="flex items-center gap-2 font-display text-sm font-semibold text-forest-900">
@@ -362,6 +370,7 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
+        </Reveal>
       </section>
     </>
   );
