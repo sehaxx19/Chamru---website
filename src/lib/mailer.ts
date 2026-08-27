@@ -19,6 +19,7 @@ const LOGO_ATTACHMENT = {
 };
 
 const WHATSAPP_URL = "https://wa.me/94707733647";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://travelwithchamru.com";
 
 const COLOR = {
   forestDark: "#0b1f16",
@@ -232,6 +233,45 @@ export async function sendAdminNewInquiryAlert(params: {
     subject: `New inquiry from ${name}`,
     html: renderEmail({
       preheader: `${name} (${email}) just sent a trip inquiry — reference ${inquiryId}.`,
+      bodyHtml,
+    }),
+    attachments: [LOGO_ATTACHMENT],
+  });
+}
+
+export async function sendAdminNewReviewAlert(params: {
+  reviewId: string;
+  guestName: string;
+  country?: string | null;
+  rating: number;
+  text: string;
+}) {
+  const { reviewId, guestName, country, rating, text } = params;
+  const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
+  if (!adminEmail) return;
+
+  const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
+
+  const bodyHtml = `
+    <h1 style="margin:0 0 6px; font-size:20px; color:${COLOR.forest};">New review awaiting approval</h1>
+    <p style="margin:0 0 12px; font-size:13px; color:${COLOR.inkLight};">
+      from ${escapeHtml(guestName)}${country ? ` · ${escapeHtml(country)}` : ""}
+    </p>
+    <p style="margin:0 0 8px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:${COLOR.inkLight};">Reference</p>
+    <div style="margin-bottom:16px;">${referenceChip(reviewId)}</div>
+    <p style="margin:0 0 12px; font-size:16px; color:${COLOR.gold}; letter-spacing:2px;">${stars}</p>
+    <p style="margin:0 0 24px; font-size:14px; line-height:1.6; color:${COLOR.ink}; background-color:${COLOR.sandMid}; border:1px solid ${COLOR.border}; border-radius:8px; padding:14px 16px;">
+      &ldquo;${escapeHtml(text)}&rdquo;
+    </p>
+    <div>${button("Review in Admin Dashboard", `${siteUrl}/admin`)}</div>
+  `;
+
+  await transporter.sendMail({
+    from: process.env.SMTP_FROM,
+    to: adminEmail,
+    subject: `New review from ${guestName} — approval needed`,
+    html: renderEmail({
+      preheader: `${guestName} left a ${rating}-star review — approve or reject it in the admin dashboard.`,
       bodyHtml,
     }),
     attachments: [LOGO_ATTACHMENT],

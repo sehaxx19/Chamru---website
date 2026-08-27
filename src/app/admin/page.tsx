@@ -1,10 +1,11 @@
 import { redirect } from "next/navigation";
-import { Mail, Phone, Calendar, Users as UsersIcon, MapPinned } from "lucide-react";
+import { Mail, Phone, Calendar, Users as UsersIcon, MapPinned, Star } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import PageHeader from "@/components/PageHeader";
 import SignOutButton from "@/components/SignOutButton";
 import InquiryActions from "@/components/InquiryActions";
+import ReviewModerationActions from "@/components/ReviewModerationActions";
 
 export const metadata = {
   title: "Admin",
@@ -55,23 +56,69 @@ export default async function AdminPage() {
     );
   }
 
-  const inquiries = await prisma.inquiry.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 100,
-    include: { itinerary: true },
-  });
+  const [inquiries, pendingReviews] = await Promise.all([
+    prisma.inquiry.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 100,
+      include: { itinerary: true },
+    }),
+    prisma.review.findMany({
+      where: { approved: false },
+      orderBy: { createdAt: "desc" },
+    }),
+  ]);
 
   return (
     <>
-      <PageHeader eyebrow="Admin" title="Inquiries" description={`Signed in as ${session.user.email}`} />
+      <PageHeader eyebrow="Admin" title="Dashboard" description={`Signed in as ${session.user.email}`} />
 
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mb-6 flex items-center justify-between">
-          <p className="text-sm text-ink-600">
-            {inquiries.length} inquir{inquiries.length === 1 ? "y" : "ies"}
-          </p>
+        <div className="mb-6 flex items-center justify-end">
           <SignOutButton />
         </div>
+
+        {pendingReviews.length > 0 && (
+          <div className="mb-10">
+            <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-semibold text-forest-900">
+              <Star size={17} className="text-gold-500" /> Reviews awaiting approval ({pendingReviews.length})
+            </h2>
+            <div className="space-y-4">
+              {pendingReviews.map((review) => (
+                <div
+                  key={review.id}
+                  className="rounded-xl border border-gold-500/30 bg-gold-500/5 p-5 shadow-sm"
+                >
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <h3 className="font-display text-base font-semibold text-forest-900">
+                        {review.guestName}
+                        {review.country && (
+                          <span className="ml-1.5 font-normal text-ink-600">· {review.country}</span>
+                        )}
+                      </h3>
+                      <p className="mt-1 text-xs text-ink-600">
+                        Submitted {review.createdAt.toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className="flex gap-0.5 text-gold-500">
+                      {Array.from({ length: review.rating }).map((_, i) => (
+                        <Star key={i} size={14} fill="currentColor" />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="mt-3 rounded-lg bg-white p-3 text-sm text-ink-900">
+                    &ldquo;{review.text}&rdquo;
+                  </p>
+                  <ReviewModerationActions id={review.id} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <h2 className="mb-4 font-display text-lg font-semibold text-forest-900">
+          Inquiries ({inquiries.length})
+        </h2>
 
         {inquiries.length === 0 ? (
           <p className="rounded-xl border border-forest-900/10 bg-white p-8 text-center text-sm text-ink-600">

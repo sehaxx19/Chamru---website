@@ -84,6 +84,7 @@ async function seedContent() {
       rating: r.rating,
       text: r.text,
       source: r.source,
+      approved: true,
     })),
   });
 

@@ -70,7 +70,10 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const reviews = await prisma.review.findMany({ select: { rating: true } });
+  const reviews = await prisma.review.findMany({
+    where: { approved: true },
+    select: { rating: true },
+  });
   const reviewCount = reviews.length;
   const avgRating = reviewCount
     ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount

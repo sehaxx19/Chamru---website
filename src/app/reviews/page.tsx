@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { Star } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
+import ReviewForm from "@/components/ReviewForm";
 import { prisma } from "@/lib/prisma";
 
 export const metadata = {
@@ -12,7 +12,10 @@ export const metadata = {
 export const revalidate = 3600;
 
 export default async function ReviewsPage() {
-  const reviews = await prisma.review.findMany({ orderBy: { createdAt: "desc" } });
+  const reviews = await prisma.review.findMany({
+    where: { approved: true },
+    orderBy: { createdAt: "desc" },
+  });
   const avg = reviews.length
     ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
     : 0;
@@ -53,18 +56,16 @@ export default async function ReviewsPage() {
           ))}
         </div>
 
-        <div className="mt-12 rounded-2xl bg-forest-900 p-8 text-center text-sand-50">
-          <h2 className="font-display text-xl font-semibold">Traveled with Chamru?</h2>
-          <p className="mx-auto mt-2 max-w-md text-sm text-sand-100/70">
-            I&rsquo;d love to hear about your trip — leave a review on Google or send
-            your feedback directly.
+        <div className="mt-14">
+          <h2 className="text-center font-display text-xl font-semibold text-forest-900">
+            Traveled with Chamru?
+          </h2>
+          <p className="mx-auto mt-2 max-w-md text-center text-sm text-ink-600">
+            I&rsquo;d love to hear about your trip.
           </p>
-          <Link
-            href="/contact"
-            className="mt-5 inline-flex items-center justify-center rounded-full bg-emerald-500 px-6 py-2.5 text-sm font-semibold text-forest-950 transition hover:bg-emerald-400"
-          >
-            Leave Feedback
-          </Link>
+          <div className="mx-auto mt-6 max-w-lg">
+            <ReviewForm />
+          </div>
         </div>
       </section>
     </>

@@ -162,8 +162,11 @@ model Review {
   country    String?
   rating     Int // 1-5
   text       String   @db.Text
-  source     String // "Google" | "TripAdvisor" | "Manual"
+  source     String // "Google" | "TripAdvisor" | "Manual" | "Website"
   photoUrl   String?
+  // Default true so existing/seeded/admin-added reviews stay visible;
+  // the public submission API explicitly sets this false on create.
+  approved   Boolean  @default(true)
   createdAt  DateTime @default(now())
 }
 
