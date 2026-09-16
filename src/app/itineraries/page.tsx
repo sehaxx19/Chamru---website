@@ -119,16 +119,17 @@ function ItinerariesPageInner() {
             className="space-y-5 rounded-2xl border border-forest-900/10 bg-white p-6 shadow-sm"
           >
             <div className="grid gap-4 sm:grid-cols-2">
-              <label className="block text-xs">
+              <label className="block min-w-0 text-xs">
                 <span className="mb-1 block font-medium text-ink-600">Arrival date</span>
                 <input
                   name="arrivalDate"
                   type="date"
+                  min={new Date().toISOString().split("T")[0]}
                   defaultValue={searchParams.get("arrivalDate") ?? undefined}
                   className="input-field"
                 />
               </label>
-              <label className="block text-xs">
+              <label className="block min-w-0 text-xs">
                 <span className="mb-1 block font-medium text-ink-600">Number of days</span>
                 <select
                   name="days"
@@ -141,7 +142,7 @@ function ItinerariesPageInner() {
                   ))}
                 </select>
               </label>
-              <label className="block text-xs">
+              <label className="block min-w-0 text-xs">
                 <span className="mb-1 block font-medium text-ink-600">Travelers</span>
                 <input
                   name="travelers"
@@ -151,7 +152,7 @@ function ItinerariesPageInner() {
                   className="input-field"
                 />
               </label>
-              <label className="block text-xs">
+              <label className="block min-w-0 text-xs">
                 <span className="mb-1 block font-medium text-ink-600">Budget (LKR, total)</span>
                 <input
                   name="budget"

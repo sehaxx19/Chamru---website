@@ -46,7 +46,12 @@ export default function ItineraryBuilderBar() {
       </div>
       <div className="grid gap-3 lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_auto]">
         <Field label="Arrival Date">
-          <input name="arrivalDate" type="date" className="input-field" />
+          <input
+            name="arrivalDate"
+            type="date"
+            min={new Date().toISOString().split("T")[0]}
+            className="input-field"
+          />
         </Field>
         <Field label="No. of Days">
           <select name="days" className="input-field" defaultValue="">
@@ -94,7 +99,7 @@ export default function ItineraryBuilderBar() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <label className="block text-xs">
+    <label className="block min-w-0 text-xs">
       <span className="mb-1 block font-medium text-ink-600">{label}</span>
       {children}
     </label>

@@ -209,7 +209,7 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <Reveal>
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-xl border border-forest-900/10 bg-white p-5 shadow-sm">
+          <div className="flex flex-col rounded-xl border border-forest-900/10 bg-white p-5 shadow-sm">
             <p className="text-xs font-medium uppercase tracking-wide text-emerald-600">
               Travel in Comfort
             </p>
@@ -232,13 +232,13 @@ export default async function HomePage() {
             </ul>
             <Link
               href="/vehicle"
-              className="mt-4 inline-block rounded-full border border-forest-900/20 px-4 py-2 text-sm font-medium text-forest-900 hover:bg-sand-100"
+              className="mt-auto inline-block w-fit rounded-full border border-forest-900/20 px-4 py-2 text-sm font-medium text-forest-900 hover:bg-sand-100"
             >
               View Vehicle Details
             </Link>
           </div>
 
-          <div className="rounded-xl border border-forest-900/10 bg-white p-5 shadow-sm">
+          <div className="flex flex-col rounded-xl border border-forest-900/10 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <h3 className="font-display text-xl font-semibold text-forest-900">
                 Guest Reviews
@@ -264,7 +264,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/reviews"
-              className="mt-4 inline-block text-sm font-medium text-emerald-600 hover:text-emerald-500"
+              className="mt-auto inline-block w-fit text-sm font-medium text-emerald-600 hover:text-emerald-500"
             >
               View All Reviews →
             </Link>
