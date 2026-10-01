@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse, after } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { sendAdminNewReviewAlert } from "@/lib/mailer";
+import { sendAdminNewReviewAlert, sendReviewThankYou } from "@/lib/mailer";
 
 const reviewSchema = z.object({
   guestName: z.string().min(1).max(100),
+  email: z.string().email().max(255),
   country: z.string().max(100).optional(),
   rating: z.number().int().min(1).max(5),
   text: z.string().min(1).max(2000),
@@ -21,11 +22,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { guestName, country, rating, text } = parsed.data;
+  const { guestName, email, country, rating, text } = parsed.data;
 
   const review = await prisma.review.create({
     data: {
       guestName,
+      email,
       country,
       rating,
       text,
@@ -45,6 +47,12 @@ export async function POST(req: NextRequest) {
       });
     } catch (err) {
       console.error("Failed to send new-review admin alert:", err);
+    }
+
+    try {
+      await sendReviewThankYou({ toEmail: email, guestName });
+    } catch (err) {
+      console.error("Failed to send review thank-you email:", err);
     }
   });
 

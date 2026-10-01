@@ -22,6 +22,7 @@ export default function ReviewForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           guestName: form.get("guestName"),
+          email: form.get("email"),
           country: form.get("country") || undefined,
           rating,
           text: form.get("text"),
@@ -96,10 +97,15 @@ export default function ReviewForm() {
           <input name="guestName" required className="input-field" />
         </label>
         <label className="block text-xs">
-          <span className="mb-1 block font-medium text-ink-600">Country (optional)</span>
-          <input name="country" className="input-field" />
+          <span className="mb-1 block font-medium text-ink-600">Your email</span>
+          <input name="email" type="email" required className="input-field" />
         </label>
       </div>
+
+      <label className="mt-4 block text-xs">
+        <span className="mb-1 block font-medium text-ink-600">Country (optional)</span>
+        <input name="country" className="input-field" />
+      </label>
 
       <label className="mt-4 block text-xs">
         <span className="mb-1 block font-medium text-ink-600">Your review</span>

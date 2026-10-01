@@ -159,6 +159,9 @@ model Vehicle {
 model Review {
   id         String   @id @default(cuid())
   guestName  String
+  // Nullable so pre-existing seeded/admin-added reviews (which never
+  // collected one) stay valid; the public submission API requires it.
+  email      String?
   country    String?
   rating     Int // 1-5
   text       String   @db.Text

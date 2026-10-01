@@ -278,6 +278,41 @@ export async function sendAdminNewReviewAlert(params: {
   });
 }
 
+const GOOGLE_REVIEW_URL = process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL;
+
+export async function sendReviewThankYou(params: { toEmail: string; guestName: string }) {
+  const { toEmail, guestName } = params;
+
+  const bodyHtml = `
+    <h1 style="margin:0 0 16px; font-size:22px; color:${COLOR.forest};">Thank you, ${escapeHtml(guestName)}!</h1>
+    <p style="margin:0 0 20px; font-size:15px; line-height:1.6; color:${COLOR.ink};">
+      We really appreciate you taking the time to share your experience. Your review is being
+      looked over and will appear on our <a href="${siteUrl}/reviews" style="color:${COLOR.emerald}; text-decoration:none; font-weight:600;">Guest Reviews</a> page shortly.
+    </p>
+    ${
+      GOOGLE_REVIEW_URL
+        ? `
+    <p style="margin:0 0 16px; font-size:15px; line-height:1.6; color:${COLOR.ink};">
+      Would you also leave the same review on Google? It helps other travelers find us.
+    </p>
+    <div>${button("Leave a Google Review", GOOGLE_REVIEW_URL)}</div>
+    `
+        : ""
+    }
+  `;
+
+  await transporter.sendMail({
+    from: process.env.SMTP_FROM,
+    to: toEmail,
+    subject: "Thanks for your review — Travel with Chamru",
+    html: renderEmail({
+      preheader: `Thank you for sharing your experience with Travel with Chamru, ${guestName}!`,
+      bodyHtml,
+    }),
+    attachments: [LOGO_ATTACHMENT],
+  });
+}
+
 export async function sendQuoteEmail(params: {
   toEmail: string;
   name: string;
