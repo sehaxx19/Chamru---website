@@ -30,7 +30,7 @@ export default async function HomePage() {
     prisma.destination.findMany({ orderBy: { createdAt: "asc" } }),
     prisma.package.findMany({ orderBy: { createdAt: "asc" } }),
     prisma.vehicle.findFirst(),
-    prisma.review.findMany({ where: { approved: true }, orderBy: { createdAt: "desc" } }),
+    prisma.review.findMany({ where: { approved: true }, orderBy: { createdAt: "desc" }, take: 3 }),
   ]);
 
   return (
