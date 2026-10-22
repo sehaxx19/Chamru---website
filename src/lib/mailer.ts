@@ -278,6 +278,46 @@ export async function sendAdminNewReviewAlert(params: {
   });
 }
 
+export async function sendCustomInquiryMessage(params: {
+  toEmail: string;
+  name: string;
+  subject: string;
+  message: string;
+  inquiryId: string;
+}) {
+  const { toEmail, name, subject, message, inquiryId } = params;
+
+  // Admin-authored free text rendered into HTML email — escape before interpolating.
+  const messageHtml = escapeHtml(message).replace(/\n/g, "<br/>");
+
+  const bodyHtml = `
+    <h1 style="margin:0 0 16px; font-size:22px; color:${COLOR.forest};">${escapeHtml(subject)}</h1>
+    <p style="margin:0 0 20px; font-size:15px; line-height:1.6; color:${COLOR.ink};">
+      Hi ${escapeHtml(name)},
+    </p>
+    <p style="margin:0 0 20px; font-size:15px; line-height:1.6; color:${COLOR.ink};">
+      ${messageHtml}
+    </p>
+    <p style="margin:0 0 8px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:${COLOR.inkLight};">Reference</p>
+    ${referenceChip(inquiryId)}
+    <p style="margin:28px 0 0; font-size:15px; line-height:1.6; color:${COLOR.ink};">
+      Have a question in the meantime? Reach out any time on WhatsApp.
+    </p>
+    <div style="margin-top:16px;">${button("Message on WhatsApp", WHATSAPP_URL)}</div>
+  `;
+
+  await transporter.sendMail({
+    from: process.env.SMTP_FROM,
+    to: toEmail,
+    subject,
+    html: renderEmail({
+      preheader: `${subject} — a message from Travel with Chamru.`,
+      bodyHtml,
+    }),
+    attachments: [LOGO_ATTACHMENT],
+  });
+}
+
 const GOOGLE_REVIEW_URL = process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL;
 
 export async function sendReviewThankYou(params: { toEmail: string; guestName: string }) {

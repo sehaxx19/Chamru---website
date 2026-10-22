@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import PageHeader from "@/components/PageHeader";
 import SignOutButton from "@/components/SignOutButton";
 import InquiryActions from "@/components/InquiryActions";
+import SendEmailButton from "@/components/SendEmailButton";
 import ReviewModerationActions from "@/components/ReviewModerationActions";
 
 export const metadata = {
@@ -240,6 +241,9 @@ export default async function AdminPage() {
                   currentStatus={inquiry.status}
                   initialPriceLkr={inquiry.quotedPriceLkr}
                 />
+                <div className="mt-2 flex flex-wrap">
+                  <SendEmailButton id={inquiry.id} name={inquiry.name} />
+                </div>
               </div>
             ))}
           </div>
