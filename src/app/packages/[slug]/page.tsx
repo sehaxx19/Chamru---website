@@ -7,6 +7,12 @@ import { getDayRates, formatStartingPrice, formatDayRate } from "@/lib/pricing";
 
 type ItineraryDay = { day: number; title: string; region: string; description: string };
 
+// These pages are statically generated at build time (generateStaticParams
+// below) and only pick up database changes via ISR after `revalidate`
+// elapses, or on the next fresh deploy. A data-only migration (no code
+// change) applied after a deploy already ran won't show up here until one
+// of those happens — if content looks stale right after a migration,
+// trigger a new deployment rather than assuming the migration failed.
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
