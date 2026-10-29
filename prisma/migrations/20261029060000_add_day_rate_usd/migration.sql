@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Settings" ADD COLUMN     "dayRateUsd" INTEGER NOT NULL DEFAULT 100;

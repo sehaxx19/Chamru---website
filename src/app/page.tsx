@@ -22,17 +22,17 @@ import ItineraryBuilderBar from "@/components/ItineraryBuilderBar";
 import Reveal from "@/components/Reveal";
 import { whyChooseUs } from "@/data/sample-data";
 import { prisma } from "@/lib/prisma";
-import { getDayRateLkr } from "@/lib/pricing";
+import { getDayRates } from "@/lib/pricing";
 
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const [destinations, packages, vehicle, reviews, dayRateLkr] = await Promise.all([
+  const [destinations, packages, vehicle, reviews, dayRates] = await Promise.all([
     prisma.destination.findMany({ orderBy: { createdAt: "asc" } }),
     prisma.package.findMany({ orderBy: { createdAt: "asc" } }),
     prisma.vehicle.findFirst(),
     prisma.review.findMany({ where: { approved: true }, orderBy: { createdAt: "desc" }, take: 3 }),
-    getDayRateLkr(),
+    getDayRates(),
   ]);
 
   return (
@@ -195,7 +195,7 @@ export default async function HomePage() {
                     <span className="text-ink-900">{p.name}</span>
                     <span className="text-xs text-ink-600">
                       {p.days > 0
-                        ? `from LKR ${(dayRateLkr * p.days).toLocaleString()}`
+                        ? `from $${(dayRates.usd * p.days).toLocaleString()}`
                         : "Build your own"}
                     </span>
                   </Link>

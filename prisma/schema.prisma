@@ -151,6 +151,7 @@ model Package {
 model Settings {
   id         String   @id @default("singleton")
   dayRateLkr Int      @default(30000)
+  dayRateUsd Int      @default(100)
   updatedAt  DateTime @updatedAt
 }
 

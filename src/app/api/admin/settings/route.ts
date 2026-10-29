@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 
 const settingsSchema = z.object({
   dayRateLkr: z.number().int().positive(),
+  dayRateUsd: z.number().int().positive(),
 });
 
 export async function PATCH(req: NextRequest) {
@@ -26,8 +27,8 @@ export async function PATCH(req: NextRequest) {
 
   const settings = await prisma.settings.upsert({
     where: { id: "singleton" },
-    update: { dayRateLkr: parsed.data.dayRateLkr },
-    create: { id: "singleton", dayRateLkr: parsed.data.dayRateLkr },
+    update: parsed.data,
+    create: { id: "singleton", ...parsed.data },
   });
 
   // Prices are computed at render time from this value, but those pages are

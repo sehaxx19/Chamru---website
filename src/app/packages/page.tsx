@@ -3,7 +3,7 @@ import { CalendarDays, ArrowRight } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import DestinationImage from "@/components/DestinationImage";
 import { prisma } from "@/lib/prisma";
-import { getDayRateLkr } from "@/lib/pricing";
+import { getDayRates, formatStartingPrice, formatDayRate } from "@/lib/pricing";
 
 export const metadata = {
   title: "Tour Packages",
@@ -14,9 +14,9 @@ export const metadata = {
 export const revalidate = 3600;
 
 export default async function PackagesPage() {
-  const [packages, dayRateLkr] = await Promise.all([
+  const [packages, dayRates] = await Promise.all([
     prisma.package.findMany({ orderBy: { createdAt: "asc" } }),
-    getDayRateLkr(),
+    getDayRates(),
   ]);
 
   return (
@@ -28,9 +28,9 @@ export default async function PackagesPage() {
       />
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <p className="mx-auto mb-10 max-w-2xl text-center text-xs text-ink-600">
-          Prices shown are base starting rates, calculated at LKR {dayRateLkr.toLocaleString()}/day
-          — your final cost depends on the itinerary you actually book. Each package page shows a
-          sample route to give you an idea, not a fixed plan.
+          Prices shown are base starting rates, calculated at {formatDayRate(dayRates)} — your
+          final cost depends on the itinerary you actually book. Each package page shows a sample
+          route to give you an idea, not a fixed plan.
         </p>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {packages.map((p, i) => (
@@ -50,9 +50,7 @@ export default async function PackagesPage() {
                   </p>
                 )}
                 <p className="mt-3 text-sm font-medium text-ink-900">
-                  {p.days > 0
-                    ? `from LKR ${(dayRateLkr * p.days).toLocaleString()}`
-                    : "Built entirely around you"}
+                  {p.days > 0 ? `from ${formatStartingPrice(p.days, dayRates)}` : "Built entirely around you"}
                 </p>
                 <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-emerald-600 group-hover:text-emerald-500">
                   View details <ArrowRight size={14} />

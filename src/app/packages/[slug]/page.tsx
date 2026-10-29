@@ -3,7 +3,45 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Check, MapPin } from "lucide-react";
 import DestinationImage from "@/components/DestinationImage";
 import { prisma } from "@/lib/prisma";
-import { getDayRateLkr } from "@/lib/pricing";
+import { getDayRates, formatStartingPrice, formatDayRate } from "@/lib/pricing";
+
+type RouteDestination = { name: string; region: string; shortDesc: string };
+
+// Cycling through every destination in table order (the previous approach)
+// can put the same town on two separate days — e.g. "Ella" and "Nine Arches
+// Bridge" are both in Ella, so a naive day-2/day-5 split could show the same
+// place twice. Group by the first segment of `region` (the town/area) and
+// skip any destination whose area has already been used in this itinerary.
+function buildSampleItinerary(destinations: RouteDestination[], dayCount: number) {
+  const areaKey = (d: RouteDestination) => d.region.split(",")[0].trim().toLowerCase();
+
+  const result: { day: number; destination: RouteDestination }[] = [];
+  const usedAreas = new Set<string>();
+  let cursor = 0;
+  let attempts = 0;
+
+  while (result.length < dayCount && attempts < destinations.length * 2) {
+    const candidate = destinations[cursor % destinations.length];
+    cursor++;
+    attempts++;
+    const key = areaKey(candidate);
+    if (!usedAreas.has(key)) {
+      usedAreas.add(key);
+      result.push({ day: result.length + 1, destination: candidate });
+    }
+  }
+
+  // Not enough distinct areas to fill every day (e.g. a 14-day package with
+  // fewer than 14 unique areas) — repeat rather than cut the itinerary short.
+  while (result.length < dayCount && destinations.length > 0) {
+    result.push({
+      day: result.length + 1,
+      destination: destinations[result.length % destinations.length],
+    });
+  }
+
+  return result;
+}
 
 export const revalidate = 3600;
 
@@ -21,10 +59,10 @@ export async function generateMetadata({
   const pkg = await prisma.package.findUnique({ where: { slug } });
   if (!pkg) return {};
 
-  const dayRateLkr = await getDayRateLkr();
+  const dayRates = await getDayRates();
   const description =
     pkg.days > 0
-      ? `${pkg.name} covering Sri Lanka's top destinations, from LKR ${(dayRateLkr * pkg.days).toLocaleString()}. Private tour with Travel with Chamru — flexible, comfortable, fairly priced.`
+      ? `${pkg.name} covering Sri Lanka's top destinations, from ${formatStartingPrice(pkg.days, dayRates)}. Private tour with Travel with Chamru — flexible, comfortable, fairly priced.`
       : "A fully customized Sri Lanka tour built entirely around your dates, interests, and budget with Travel with Chamru.";
 
   return {
@@ -57,23 +95,16 @@ export default async function PackageDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [pkg, destinations, dayRateLkr] = await Promise.all([
+  const [pkg, destinations, dayRates] = await Promise.all([
     prisma.package.findUnique({ where: { slug } }),
     prisma.destination.findMany(),
-    getDayRateLkr(),
+    getDayRates(),
   ]);
   if (!pkg) notFound();
 
   const isCustom = pkg.days === 0;
-  const startingPriceLkr = dayRateLkr * pkg.days;
   const dayCount = isCustom ? 7 : pkg.days;
-  const itineraryDays =
-    destinations.length > 0
-      ? Array.from({ length: dayCount }).map((_, i) => {
-          const d = destinations[i % destinations.length];
-          return { day: i + 1, destination: d };
-        })
-      : [];
+  const itineraryDays = buildSampleItinerary(destinations, dayCount);
 
   return (
     <>
@@ -95,8 +126,8 @@ export default async function PackageDetailPage({
           </h1>
           <p className="mt-2 text-sm text-sand-100/80">
             {isCustom
-              ? `Tell me your dates, interests, and pace — I'll build the route around you. From LKR ${dayRateLkr.toLocaleString()}/day.`
-              : `${pkg.days} days · from LKR ${startingPriceLkr.toLocaleString()}`}
+              ? `Tell me your dates, interests, and pace — I'll build the route around you. From ${formatDayRate(dayRates)}.`
+              : `${pkg.days} days · from ${formatStartingPrice(pkg.days, dayRates)}`}
           </p>
         </div>
       </section>
@@ -117,18 +148,18 @@ export default async function PackageDetailPage({
               <strong className="text-forest-900">Pricing: </strong>
               {isCustom ? (
                 <>
-                  LKR {dayRateLkr.toLocaleString()}/day for the vehicle and driver is our base rate,
-                  updated as costs change. It&rsquo;s a starting point, not a final figure — your
-                  actual price depends on the itinerary we build together (trip length, stops,
-                  group size). Accommodation, meals, and entrance fees aren&rsquo;t included.
+                  {formatDayRate(dayRates)} for the vehicle and driver is our base rate, updated as
+                  costs change. It&rsquo;s a starting point, not a final figure — your actual price
+                  depends on the itinerary we build together (trip length, stops, group size).
+                  Accommodation, meals, and entrance fees aren&rsquo;t included.
                 </>
               ) : (
                 <>
-                  LKR {startingPriceLkr.toLocaleString()} is the base rate for {pkg.days} days,
-                  calculated at LKR {dayRateLkr.toLocaleString()}/day for the vehicle and driver —
-                  updated as costs change. It&rsquo;s a starting point, not a final figure: your
-                  actual price will depend on the itinerary you end up booking, not the sample
-                  route above. Accommodation, meals, and entrance fees aren&rsquo;t included.
+                  {formatStartingPrice(pkg.days, dayRates)} is the base rate for {pkg.days} days,
+                  calculated at {formatDayRate(dayRates)} for the vehicle and driver — updated as
+                  costs change. It&rsquo;s a starting point, not a final figure: your actual price
+                  will depend on the itinerary you end up booking, not the sample route above.
+                  Accommodation, meals, and entrance fees aren&rsquo;t included.
                 </>
               )}
             </div>
