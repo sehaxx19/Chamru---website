@@ -23,6 +23,144 @@ import {
 const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
+// Hand-curated, geographically accurate day-by-day routes for each package
+// (Cultural Triangle → Hill Country → Wildlife → South Coast) — kept in sync
+// with prisma/migrations/20261029070000_add_sample_itinerary/migration.sql,
+// which applies this same content directly in production.
+const SIGIRIYA_DAMBULLA = {
+  title: "Sigiriya & Dambulla",
+  region: "Central Province",
+  description:
+    "Climb the UNESCO-listed Sigiriya Rock Fortress and explore the ancient cave temples of Dambulla, filled with centuries-old Buddhist murals and statues.",
+};
+const KANDY = {
+  title: "Kandy",
+  region: "Central Province",
+  description:
+    "Visit the Temple of the Sacred Tooth Relic, stroll the Royal Botanical Gardens in Peradeniya, and end the day with a traditional Kandyan dance show.",
+};
+const NUWARA_ELIYA = {
+  title: "Nuwara Eliya",
+  region: "Central Province",
+  description:
+    "Drive through rolling tea plantations, visit a working tea factory, and take in the cool hill-country air around Gregory Lake.",
+};
+const ELLA = {
+  title: "Ella — Nine Arches Bridge",
+  region: "Uva Province",
+  description:
+    "Walk across the iconic Nine Arches Bridge, hike up Little Adam's Peak for sweeping valley views, and cool off at Ravana Falls.",
+};
+const UDAWALAWE = {
+  title: "Udawalawe",
+  region: "Sabaragamuwa Province",
+  description:
+    "Visit the Elephant Transit Home and head out on a wildlife safari through Udawalawe National Park, one of the best places in Sri Lanka to see wild elephants.",
+};
+const YALA = {
+  title: "Yala National Park",
+  region: "Southern Province",
+  description:
+    "An early-morning safari through Yala, Sri Lanka's most famous national park and home to one of the highest leopard densities in the world.",
+};
+const MIRISSA = {
+  title: "Mirissa",
+  region: "Southern Province",
+  description:
+    "Head out on a whale-watching boat trip (seasonal, Nov–Apr), then relax on Mirissa's beaches and the famous Coconut Tree Hill.",
+};
+const GALLE = {
+  title: "Galle",
+  region: "Southern Province",
+  description:
+    "Explore the UNESCO-listed Galle Fort, walk the historic ramparts, and browse the boutiques and cafés inside its Dutch colonial walls.",
+};
+const POLONNARUWA = {
+  title: "Polonnaruwa",
+  region: "North Central Province",
+  description:
+    "Explore the ruins of Sri Lanka's medieval capital — royal palaces, ancient stupas, and the carved Buddha statues of Gal Vihara.",
+};
+const MINNERIYA = {
+  title: "Minneriya Safari",
+  region: "North Central Province",
+  description:
+    'Head out on a jeep safari at Minneriya National Park, famous for "The Gathering" — one of the largest wild elephant gatherings in Asia.',
+};
+const BENTOTA_TO_COLOMBO = {
+  title: "Bentota",
+  region: "Southern Province",
+  description:
+    "Try water sports along the Bentota coastline, take a boat safari through the Madu River's mangroves, and stop at the Pinnawala Elephant Orphanage on the way back to Colombo.",
+};
+const BENTOTA = {
+  title: "Bentota",
+  region: "Southern Province",
+  description:
+    "Try water sports along the Bentota coastline and take a boat safari through the Madu River's mangroves and river islands.",
+};
+const NEGOMBO = {
+  title: "Negombo",
+  region: "Western Province",
+  description:
+    "Settle in near a traditional fishing village, visit the bustling fish market, and relax on Negombo's beach after your flight in.",
+};
+const ANURADHAPURA = {
+  title: "Anuradhapura",
+  region: "North Central Province",
+  description:
+    "Explore Sri Lanka's first ancient capital — centuries-old dagobas, sacred Bodhi trees, and ruins spread across a vast archaeological park.",
+};
+const COLOMBO = {
+  title: "Colombo",
+  region: "Western Province",
+  description:
+    "Tour Sri Lanka's capital — Galle Face Green, Gangaramaya Temple, and the colonial-era Fort district — with a stop at the Pinnawala Elephant Orphanage along the way.",
+};
+const DEPARTURE = {
+  title: "Departure",
+  region: "Western Province",
+  description: "Transfer to the airport for your onward journey, with time for last-minute souvenir shopping.",
+};
+
+function withDays<T>(stops: T[]) {
+  return stops.map((stop, i) => ({ day: i + 1, ...stop }));
+}
+
+const SAMPLE_ITINERARIES: Record<string, ReturnType<typeof withDays>> = {
+  "5-day-tour": withDays([SIGIRIYA_DAMBULLA, KANDY, NUWARA_ELIYA, ELLA, UDAWALAWE]),
+  "7-day-tour": withDays([SIGIRIYA_DAMBULLA, KANDY, NUWARA_ELIYA, ELLA, UDAWALAWE, GALLE, MIRISSA]),
+  "10-day-tour": withDays([
+    SIGIRIYA_DAMBULLA,
+    POLONNARUWA,
+    MINNERIYA,
+    KANDY,
+    NUWARA_ELIYA,
+    ELLA,
+    YALA,
+    MIRISSA,
+    GALLE,
+    BENTOTA_TO_COLOMBO,
+  ]),
+  "14-day-tour": withDays([
+    NEGOMBO,
+    ANURADHAPURA,
+    POLONNARUWA,
+    MINNERIYA,
+    SIGIRIYA_DAMBULLA,
+    KANDY,
+    NUWARA_ELIYA,
+    ELLA,
+    YALA,
+    MIRISSA,
+    GALLE,
+    BENTOTA,
+    COLOMBO,
+    DEPARTURE,
+  ]),
+  "customized-tour": withDays([SIGIRIYA_DAMBULLA, KANDY, NUWARA_ELIYA, ELLA, UDAWALAWE, GALLE, MIRISSA]),
+};
+
 async function seedContent() {
   await prisma.destination.deleteMany();
   await prisma.destination.createMany({
@@ -57,6 +195,7 @@ async function seedContent() {
           : "A fully customized Sri Lanka tour built entirely around your dates, interests, and budget.",
       highlights: [],
       heroImageUrl: p.imageUrl,
+      sampleItinerary: SAMPLE_ITINERARIES[p.slug] ?? [],
     })),
   });
 

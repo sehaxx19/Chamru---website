@@ -142,6 +142,11 @@ model Package {
   summary      String
   highlights   String[]
   heroImageUrl String
+  // Hand-curated day-by-day route shown on the package page, as
+  // [{ day, title, region, description }]. Deliberately not derived from
+  // Destination records — those aren't curated into a real travel circuit,
+  // which previously let unrelated places (or the same place twice) show up.
+  sampleItinerary Json?
   createdAt    DateTime @default(now())
 }
 

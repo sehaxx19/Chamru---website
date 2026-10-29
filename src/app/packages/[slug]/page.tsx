@@ -5,43 +5,7 @@ import DestinationImage from "@/components/DestinationImage";
 import { prisma } from "@/lib/prisma";
 import { getDayRates, formatStartingPrice, formatDayRate } from "@/lib/pricing";
 
-type RouteDestination = { name: string; region: string; shortDesc: string };
-
-// Cycling through every destination in table order (the previous approach)
-// can put the same town on two separate days — e.g. "Ella" and "Nine Arches
-// Bridge" are both in Ella, so a naive day-2/day-5 split could show the same
-// place twice. Group by the first segment of `region` (the town/area) and
-// skip any destination whose area has already been used in this itinerary.
-function buildSampleItinerary(destinations: RouteDestination[], dayCount: number) {
-  const areaKey = (d: RouteDestination) => d.region.split(",")[0].trim().toLowerCase();
-
-  const result: { day: number; destination: RouteDestination }[] = [];
-  const usedAreas = new Set<string>();
-  let cursor = 0;
-  let attempts = 0;
-
-  while (result.length < dayCount && attempts < destinations.length * 2) {
-    const candidate = destinations[cursor % destinations.length];
-    cursor++;
-    attempts++;
-    const key = areaKey(candidate);
-    if (!usedAreas.has(key)) {
-      usedAreas.add(key);
-      result.push({ day: result.length + 1, destination: candidate });
-    }
-  }
-
-  // Not enough distinct areas to fill every day (e.g. a 14-day package with
-  // fewer than 14 unique areas) — repeat rather than cut the itinerary short.
-  while (result.length < dayCount && destinations.length > 0) {
-    result.push({
-      day: result.length + 1,
-      destination: destinations[result.length % destinations.length],
-    });
-  }
-
-  return result;
-}
+type ItineraryDay = { day: number; title: string; region: string; description: string };
 
 export const revalidate = 3600;
 
@@ -95,16 +59,14 @@ export default async function PackageDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [pkg, destinations, dayRates] = await Promise.all([
+  const [pkg, dayRates] = await Promise.all([
     prisma.package.findUnique({ where: { slug } }),
-    prisma.destination.findMany(),
     getDayRates(),
   ]);
   if (!pkg) notFound();
 
   const isCustom = pkg.days === 0;
-  const dayCount = isCustom ? 7 : pkg.days;
-  const itineraryDays = buildSampleItinerary(destinations, dayCount);
+  const itineraryDays = (pkg.sampleItinerary as ItineraryDay[] | null) ?? [];
 
   return (
     <>
@@ -165,19 +127,19 @@ export default async function PackageDetailPage({
             </div>
 
             <ol className="mt-6 space-y-5">
-              {itineraryDays.map(({ day, destination }) => (
+              {itineraryDays.map(({ day, title, region, description }) => (
                 <li key={day} className="flex gap-4 rounded-xl border border-forest-900/10 bg-white p-4 shadow-sm">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-sm font-semibold text-emerald-700">
                     {day}
                   </div>
                   <div>
                     <h3 className="font-display text-sm font-semibold text-forest-900">
-                      Day {day}: {destination.name}
+                      Day {day}: {title}
                     </h3>
                     <p className="mt-1 flex items-center gap-1.5 text-xs text-ink-600">
-                      <MapPin size={12} /> {destination.region}
+                      <MapPin size={12} /> {region}
                     </p>
-                    <p className="mt-1.5 text-sm text-ink-600">{destination.shortDesc}</p>
+                    <p className="mt-1.5 text-sm text-ink-600">{description}</p>
                   </div>
                 </li>
               ))}
