@@ -139,11 +139,19 @@ model Package {
   slug         String   @unique
   name         String // "5 Days Tour", "Customized Tour"
   days         Int
-  fromPriceLkr Int?
   summary      String
   highlights   String[]
   heroImageUrl String
   createdAt    DateTime @default(now())
+}
+
+// Singleton row (id "singleton") holding business-wide settings the admin
+// edits directly, instead of values baked into code or individual records —
+// starting at the day rate, since that's what every package price derives from.
+model Settings {
+  id         String   @id @default("singleton")
+  dayRateLkr Int      @default(30000)
+  updatedAt  DateTime @updatedAt
 }
 
 model Vehicle {

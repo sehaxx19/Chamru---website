@@ -49,10 +49,11 @@ async function seedContent() {
       slug: p.slug,
       name: p.name,
       days: p.days,
-      fromPriceLkr: p.fromPriceLkr,
+      // Starting prices are computed live from Settings.dayRateLkr (see
+      // src/lib/pricing.ts), not stored per package.
       summary:
         p.days > 0
-          ? `${p.days}-day private tour covering Sri Lanka's top destinations, from LKR ${p.fromPriceLkr?.toLocaleString()}.`
+          ? `${p.days}-day private tour covering Sri Lanka's top destinations.`
           : "A fully customized Sri Lanka tour built entirely around your dates, interests, and budget.",
       highlights: [],
       heroImageUrl: p.imageUrl,

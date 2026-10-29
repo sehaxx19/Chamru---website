@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Check, MapPin } from "lucide-react";
 import DestinationImage from "@/components/DestinationImage";
 import { prisma } from "@/lib/prisma";
+import { getDayRateLkr } from "@/lib/pricing";
 
 export const revalidate = 3600;
 
@@ -20,9 +21,10 @@ export async function generateMetadata({
   const pkg = await prisma.package.findUnique({ where: { slug } });
   if (!pkg) return {};
 
+  const dayRateLkr = await getDayRateLkr();
   const description =
     pkg.days > 0
-      ? `${pkg.name} covering Sri Lanka's top destinations, from LKR ${pkg.fromPriceLkr?.toLocaleString()}. Private tour with Travel with Chamru — flexible, comfortable, fairly priced.`
+      ? `${pkg.name} covering Sri Lanka's top destinations, from LKR ${(dayRateLkr * pkg.days).toLocaleString()}. Private tour with Travel with Chamru — flexible, comfortable, fairly priced.`
       : "A fully customized Sri Lanka tour built entirely around your dates, interests, and budget with Travel with Chamru.";
 
   return {
@@ -55,12 +57,15 @@ export default async function PackageDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const pkg = await prisma.package.findUnique({ where: { slug } });
+  const [pkg, destinations, dayRateLkr] = await Promise.all([
+    prisma.package.findUnique({ where: { slug } }),
+    prisma.destination.findMany(),
+    getDayRateLkr(),
+  ]);
   if (!pkg) notFound();
 
-  const destinations = await prisma.destination.findMany();
-
   const isCustom = pkg.days === 0;
+  const startingPriceLkr = dayRateLkr * pkg.days;
   const dayCount = isCustom ? 7 : pkg.days;
   const itineraryDays =
     destinations.length > 0
@@ -90,8 +95,8 @@ export default async function PackageDetailPage({
           </h1>
           <p className="mt-2 text-sm text-sand-100/80">
             {isCustom
-              ? "Tell me your dates, interests, and pace — I'll build the route around you."
-              : `${pkg.days} days · from LKR ${pkg.fromPriceLkr?.toLocaleString()}`}
+              ? `Tell me your dates, interests, and pace — I'll build the route around you. From LKR ${dayRateLkr.toLocaleString()}/day.`
+              : `${pkg.days} days · from LKR ${startingPriceLkr.toLocaleString()}`}
           </p>
         </div>
       </section>
@@ -100,13 +105,33 @@ export default async function PackageDetailPage({
         <div className="grid gap-10 lg:grid-cols-[1fr_280px]">
           <div>
             <h2 className="font-display text-xl font-semibold text-forest-900">
-              {isCustom ? "A sample route" : "Day-by-day itinerary"}
+              {isCustom ? "A sample route" : "Sample itinerary"}
             </h2>
             <p className="mt-2 text-sm text-ink-600">
               {isCustom
                 ? "Every custom tour is different — here's an example of how a first week might look."
-                : "A typical outline. Order and pacing can be adjusted to fit your preferences."}
+                : "This is one example of how these days could go, not a fixed plan tied to the price below — stops, order, and pacing are all adjusted to what you actually want to see."}
             </p>
+
+            <div className="mt-4 rounded-xl border border-gold-500/30 bg-gold-500/5 p-4 text-sm text-ink-900">
+              <strong className="text-forest-900">Pricing: </strong>
+              {isCustom ? (
+                <>
+                  From LKR {dayRateLkr.toLocaleString()}/day for the vehicle and driver, based on
+                  the current day rate — updated as costs change. Your final price depends on trip
+                  length, stops, and group size. Accommodation, meals, and entrance fees aren&rsquo;t
+                  included.
+                </>
+              ) : (
+                <>
+                  Starting from LKR {startingPriceLkr.toLocaleString()} for {pkg.days} days, based
+                  on the current day rate of LKR {dayRateLkr.toLocaleString()}/day for the vehicle
+                  and driver — updated as costs change. This is an estimate, not a quote for the
+                  exact itinerary above. Accommodation, meals, and entrance fees aren&rsquo;t
+                  included.
+                </>
+              )}
+            </div>
 
             <ol className="mt-6 space-y-5">
               {itineraryDays.map(({ day, destination }) => (

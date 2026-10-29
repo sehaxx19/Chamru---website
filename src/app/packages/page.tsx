@@ -3,6 +3,7 @@ import { CalendarDays, ArrowRight } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import DestinationImage from "@/components/DestinationImage";
 import { prisma } from "@/lib/prisma";
+import { getDayRateLkr } from "@/lib/pricing";
 
 export const metadata = {
   title: "Tour Packages",
@@ -13,7 +14,10 @@ export const metadata = {
 export const revalidate = 3600;
 
 export default async function PackagesPage() {
-  const packages = await prisma.package.findMany({ orderBy: { createdAt: "asc" } });
+  const [packages, dayRateLkr] = await Promise.all([
+    prisma.package.findMany({ orderBy: { createdAt: "asc" } }),
+    getDayRateLkr(),
+  ]);
 
   return (
     <>
@@ -22,8 +26,11 @@ export default async function PackagesPage() {
         title="Our popular tour packages"
         description="Handpicked itineraries to give you the best Sri Lanka experience — or build one entirely your own."
       />
-
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <p className="mx-auto mb-10 max-w-2xl text-center text-xs text-ink-600">
+          Prices shown are starting estimates based on the current day rate (LKR{" "}
+          {dayRateLkr.toLocaleString()}/day) — see each package for what&rsquo;s included.
+        </p>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {packages.map((p, i) => (
             <Link
@@ -42,8 +49,8 @@ export default async function PackagesPage() {
                   </p>
                 )}
                 <p className="mt-3 text-sm font-medium text-ink-900">
-                  {p.fromPriceLkr
-                    ? `from LKR ${p.fromPriceLkr.toLocaleString()}`
+                  {p.days > 0
+                    ? `from LKR ${(dayRateLkr * p.days).toLocaleString()}`
                     : "Built entirely around you"}
                 </p>
                 <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-emerald-600 group-hover:text-emerald-500">

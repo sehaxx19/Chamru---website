@@ -7,6 +7,8 @@ import SignOutButton from "@/components/SignOutButton";
 import InquiryActions from "@/components/InquiryActions";
 import SendEmailButton from "@/components/SendEmailButton";
 import ReviewModerationActions from "@/components/ReviewModerationActions";
+import PricingSettings from "@/components/PricingSettings";
+import { getDayRateLkr } from "@/lib/pricing";
 
 export const metadata = {
   title: "Admin",
@@ -57,7 +59,7 @@ export default async function AdminPage() {
     );
   }
 
-  const [inquiries, pendingReviews] = await Promise.all([
+  const [inquiries, pendingReviews, dayRateLkr] = await Promise.all([
     prisma.inquiry.findMany({
       orderBy: { createdAt: "desc" },
       take: 100,
@@ -67,6 +69,7 @@ export default async function AdminPage() {
       where: { approved: false },
       orderBy: { createdAt: "desc" },
     }),
+    getDayRateLkr(),
   ]);
 
   return (
@@ -77,6 +80,8 @@ export default async function AdminPage() {
         <div className="mb-6 flex items-center justify-end">
           <SignOutButton />
         </div>
+
+        <PricingSettings initialDayRateLkr={dayRateLkr} />
 
         {pendingReviews.length > 0 && (
           <div className="mb-10">
