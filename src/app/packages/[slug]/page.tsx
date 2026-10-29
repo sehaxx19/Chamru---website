@@ -109,26 +109,26 @@ export default async function PackageDetailPage({
             </h2>
             <p className="mt-2 text-sm text-ink-600">
               {isCustom
-                ? "Every custom tour is different — here's an example of how a first week might look."
-                : "This is one example of how these days could go, not a fixed plan tied to the price below — stops, order, and pacing are all adjusted to what you actually want to see."}
+                ? "This is a sample route so you can get an idea of the pace and stops — every custom tour is built from scratch around you, not copied from this example."
+                : "This is a sample itinerary so you can get an idea of the pace and stops — not a fixed plan. Your actual route is built around what you want to see, and can differ from the example below."}
             </p>
 
             <div className="mt-4 rounded-xl border border-gold-500/30 bg-gold-500/5 p-4 text-sm text-ink-900">
               <strong className="text-forest-900">Pricing: </strong>
               {isCustom ? (
                 <>
-                  From LKR {dayRateLkr.toLocaleString()}/day for the vehicle and driver, based on
-                  the current day rate — updated as costs change. Your final price depends on trip
-                  length, stops, and group size. Accommodation, meals, and entrance fees aren&rsquo;t
-                  included.
+                  LKR {dayRateLkr.toLocaleString()}/day for the vehicle and driver is our base rate,
+                  updated as costs change. It&rsquo;s a starting point, not a final figure — your
+                  actual price depends on the itinerary we build together (trip length, stops,
+                  group size). Accommodation, meals, and entrance fees aren&rsquo;t included.
                 </>
               ) : (
                 <>
-                  Starting from LKR {startingPriceLkr.toLocaleString()} for {pkg.days} days, based
-                  on the current day rate of LKR {dayRateLkr.toLocaleString()}/day for the vehicle
-                  and driver — updated as costs change. This is an estimate, not a quote for the
-                  exact itinerary above. Accommodation, meals, and entrance fees aren&rsquo;t
-                  included.
+                  LKR {startingPriceLkr.toLocaleString()} is the base rate for {pkg.days} days,
+                  calculated at LKR {dayRateLkr.toLocaleString()}/day for the vehicle and driver —
+                  updated as costs change. It&rsquo;s a starting point, not a final figure: your
+                  actual price will depend on the itinerary you end up booking, not the sample
+                  route above. Accommodation, meals, and entrance fees aren&rsquo;t included.
                 </>
               )}
             </div>

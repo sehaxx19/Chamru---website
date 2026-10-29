@@ -28,8 +28,9 @@ export default async function PackagesPage() {
       />
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <p className="mx-auto mb-10 max-w-2xl text-center text-xs text-ink-600">
-          Prices shown are starting estimates based on the current day rate (LKR{" "}
-          {dayRateLkr.toLocaleString()}/day) — see each package for what&rsquo;s included.
+          Prices shown are base starting rates, calculated at LKR {dayRateLkr.toLocaleString()}/day
+          — your final cost depends on the itinerary you actually book. Each package page shows a
+          sample route to give you an idea, not a fixed plan.
         </p>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {packages.map((p, i) => (
