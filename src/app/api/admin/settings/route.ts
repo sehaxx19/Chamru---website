@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -28,6 +29,13 @@ export async function PATCH(req: NextRequest) {
     update: { dayRateLkr: parsed.data.dayRateLkr },
     create: { id: "singleton", dayRateLkr: parsed.data.dayRateLkr },
   });
+
+  // Prices are computed at render time from this value, but those pages are
+  // ISR-cached (revalidate = 3600) — without this they'd keep serving the
+  // old price for up to an hour after the admin updates the rate.
+  revalidatePath("/");
+  revalidatePath("/packages");
+  revalidatePath("/packages/[slug]", "layout");
 
   return NextResponse.json(settings);
 }
