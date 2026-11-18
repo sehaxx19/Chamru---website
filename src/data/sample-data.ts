@@ -258,7 +258,6 @@ export const vehicle = {
     "Air Conditioned",
     "Comfortable Seating",
     "Luggage Space",
-    "Free Wi-Fi",
     "Phone Charging Ports",
     "Complimentary Bottled Water",
   ],

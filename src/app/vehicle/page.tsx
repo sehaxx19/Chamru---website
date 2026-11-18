@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma";
 export const metadata = {
   title: "Vehicle",
   description:
-    "Travel in comfort in a Honda Vezel — air conditioning, comfortable seating, and complimentary Wi-Fi. Larger vehicles available for bigger groups.",
+    "Travel in comfort in a Honda Vezel — air conditioning and comfortable seating. Larger vehicles available for bigger groups.",
 };
 
 export const revalidate = 3600;

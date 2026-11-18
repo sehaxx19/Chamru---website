@@ -9,7 +9,6 @@ import {
   Star,
   MapPin,
   Clock,
-  Wifi,
   Snowflake,
   BatteryCharging,
   Luggage,
@@ -229,7 +228,6 @@ export default async function HomePage() {
               <li className="flex items-center gap-1.5"><Snowflake size={14} className="text-emerald-600" /> Air Conditioned</li>
               <li className="flex items-center gap-1.5"><Users size={14} className="text-emerald-600" /> Comfortable Seating</li>
               <li className="flex items-center gap-1.5"><Luggage size={14} className="text-emerald-600" /> Luggage Space</li>
-              <li className="flex items-center gap-1.5"><Wifi size={14} className="text-emerald-600" /> Free Wi-Fi</li>
               <li className="flex items-center gap-1.5"><BatteryCharging size={14} className="text-emerald-600" /> Charging Ports</li>
             </ul>
             <Link
